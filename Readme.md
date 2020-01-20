@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Татьяна Степина](https://up.htmlacademy.ru/javascript/19/user/1128563).
-* Наставник: `Неизвестно`.
+* Наставник: `Антон Попов`.
 
 ---
 
