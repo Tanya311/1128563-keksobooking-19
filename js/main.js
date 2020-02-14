@@ -254,6 +254,9 @@ var guestsCout = adForm.querySelector('#capacity');
 var title = adForm.querySelector('#title');
 var type = adForm.querySelector('#type');
 var price = adForm.querySelector('#price');
+var timeIn = adForm.querySelector('#timein');
+var timeOut = adForm.querySelector('#timeout');
+
 
 mapFiltersFormSelect.forEach(function (select) {
   select.setAttribute('disabled', 'disabled');
@@ -345,11 +348,22 @@ var priceValidateHandler = function () {
   }
 };
 
+/**
+ * функция валидации времени
+ * @param {*} evt
+ */
+var timeValidateHandler = function (evt) {
+  if (evt.target.matches('#timein')) {
+    timeOut.selectedIndex = timeIn.selectedIndex;
 
-priceValidateHandler();
-roomCapacityValidateHandler();
+  } else {
+    timeIn.selectedIndex = timeOut.selectedIndex;
+  }
+};
+
 adForm.addEventListener('change', roomCapacityValidateHandler);
 adForm.addEventListener('change', priceValidateHandler);
+adForm.addEventListener('change', timeValidateHandler);
 
 mapPins.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
