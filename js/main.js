@@ -232,15 +232,25 @@ var mapDialogOpenHandler = function () {
   });
 };
 
+/**
+ * функция валидации комнат для гостей
+ */
 var roomCapacityValidateHandler = function () {
   if (roomNumber.value === '1') {
     guestsCout[0].setAttribute('disabled', 'disabled');
     guestsCout[1].setAttribute('disabled', 'disabled');
+    guestsCout[2].removeAttribute('disabled');
     guestsCout[3].setAttribute('disabled', 'disabled');
   } else if (roomNumber.value === '2') {
+    guestsCout[0].setAttribute('disabled', 'disabled');
     guestsCout[1].removeAttribute('disabled');
+    guestsCout[2].removeAttribute('disabled');
+    guestsCout[3].setAttribute('disabled', 'disabled');
   } else if (roomNumber.value === '3') {
     guestsCout[0].removeAttribute('disabled');
+    guestsCout[1].removeAttribute('disabled');
+    guestsCout[2].removeAttribute('disabled');
+    guestsCout[3].setAttribute('disabled', 'disabled');
   } else if (roomNumber.value === '100') {
     guestsCout[0].setAttribute('disabled', 'disabled');
     guestsCout[1].setAttribute('disabled', 'disabled');
@@ -248,6 +258,7 @@ var roomCapacityValidateHandler = function () {
     guestsCout[3].removeAttribute('disabled');
   }
 };
+
 
 roomCapacityValidateHandler();
 adForm.addEventListener('change', roomCapacityValidateHandler);
