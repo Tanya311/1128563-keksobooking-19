@@ -252,6 +252,8 @@ var adressAdForm = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
 var guestsCout = adForm.querySelector('#capacity');
 var title = adForm.querySelector('#title');
+var type = adForm.querySelector('#type');
+var price = adForm.querySelector('#price');
 
 mapFiltersFormSelect.forEach(function (select) {
   select.setAttribute('disabled', 'disabled');
@@ -323,9 +325,31 @@ title.addEventListener('invalid', function () {
   }
 });
 
+/**
+ * функция валидации стоимости
+ */
+var priceValidateHandler = function () {
+  price.setAttribute('max', '1000000');
+  if (type.value === 'bungalo') {
+    price.setAttribute('placeholder', '0');
+    price.setAttribute('min', '0');
+  } else if (type.value === 'flat') {
+    price.setAttribute('placeholder', '1000');
+    price.setAttribute('min', '1000');
+  } else if (type.value === 'house') {
+    price.setAttribute('placeholder', '5000');
+    price.setAttribute('min', '5000');
+  } else if (type.value === 'palace') {
+    price.setAttribute('placeholder', '10000');
+    price.setAttribute('min', '10000');
+  }
+};
 
+
+priceValidateHandler();
 roomCapacityValidateHandler();
 adForm.addEventListener('change', roomCapacityValidateHandler);
+adForm.addEventListener('change', priceValidateHandler);
 
 mapPins.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
@@ -337,8 +361,6 @@ mapPins.addEventListener('keydown', function (evt) {
     mapDialogOpenHandler();
   }
 });
-
-
 
 
 renderCard(ads[0]);
