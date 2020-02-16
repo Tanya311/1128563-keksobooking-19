@@ -288,7 +288,6 @@ var adressAdForm = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
 var guestsCout = adForm.querySelector('#capacity');
 var title = adForm.querySelector('#title');
-var type = adForm.querySelector('#type');
 var price = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
@@ -326,28 +325,22 @@ var mapDialogOpenHandler = function () {
  * функция валидации комнат для гостей
  */
 var roomCapacityValidateHandler = function () {
-  if (roomNumber.value === '1') {
-    guestsCout[0].setAttribute('disabled', 'disabled');
-    guestsCout[1].setAttribute('disabled', 'disabled');
-    guestsCout[2].removeAttribute('disabled');
-    guestsCout[3].setAttribute('disabled', 'disabled');
-  } else if (roomNumber.value === '2') {
-    guestsCout[0].setAttribute('disabled', 'disabled');
-    guestsCout[1].removeAttribute('disabled');
-    guestsCout[2].removeAttribute('disabled');
-    guestsCout[3].setAttribute('disabled', 'disabled');
-  } else if (roomNumber.value === '3') {
-    guestsCout[0].removeAttribute('disabled');
-    guestsCout[1].removeAttribute('disabled');
-    guestsCout[2].removeAttribute('disabled');
-    guestsCout[3].setAttribute('disabled', 'disabled');
-  } else if (roomNumber.value === '100') {
-    guestsCout[0].setAttribute('disabled', 'disabled');
-    guestsCout[1].setAttribute('disabled', 'disabled');
-    guestsCout[2].setAttribute('disabled', 'disabled');
-    guestsCout[3].removeAttribute('disabled');
+  var rooms = parseInt(roomNumber.value, 10);
+  var guests = parseInt(guestsCout.value, 10);
+
+  var roomGuests = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0]
+  };
+  if (roomGuests[rooms].indexOf(guests) === -1) {
+    guestsCout.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
+  } else {
+    guestsCout.setCustomValidity('');
   }
 };
+
 
 /**
  * функция валидации заголовка объявления
@@ -366,22 +359,18 @@ title.addEventListener('invalid', function () {
 
 /**
  * функция валидации стоимости
+ * @param {*} evt
  */
-var priceValidateHandler = function () {
+var priceValidateHandler = function (evt) {
+  var priceOfHouse = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
   price.setAttribute('max', '1000000');
-  if (type.value === 'bungalo') {
-    price.setAttribute('placeholder', '0');
-    price.setAttribute('min', '0');
-  } else if (type.value === 'flat') {
-    price.setAttribute('placeholder', '1000');
-    price.setAttribute('min', '1000');
-  } else if (type.value === 'house') {
-    price.setAttribute('placeholder', '5000');
-    price.setAttribute('min', '5000');
-  } else if (type.value === 'palace') {
-    price.setAttribute('placeholder', '10000');
-    price.setAttribute('min', '10000');
-  }
+  price.setAttribute('placeholder', priceOfHouse[evt.target.value]);
+  price.setAttribute('min', priceOfHouse[evt.target.value]);
 };
 
 /**
@@ -391,15 +380,22 @@ var priceValidateHandler = function () {
 var timeValidateHandler = function (evt) {
   if (evt.target.matches('#timein')) {
     timeOut.selectedIndex = timeIn.selectedIndex;
-
   } else {
     timeIn.selectedIndex = timeOut.selectedIndex;
   }
 };
 
+function formChangeHandler(evt) {
+  if (evt.target.matches('#type')) {
+    priceValidateHandler(evt);
+  } else if (evt.target.matches('#timein') || evt.target.matches('#timeout')) {
+    timeValidateHandler(evt);
+  }
+}
+
 adForm.addEventListener('change', roomCapacityValidateHandler);
-adForm.addEventListener('change', priceValidateHandler);
-adForm.addEventListener('change', timeValidateHandler);
+adForm.addEventListener('change', formChangeHandler);
+
 
 mapPins.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
