@@ -233,6 +233,42 @@ var renderPin = function (pinDate) {
   pinElement.style = 'left: ' + pinDate.location.x + 'px; top: ' + pinDate.location.y + 'px;';
   imgElement.src = pinDate.author.avatar;
   imgElement.alt = pinDate.offer.title;
+
+
+  var cardOpenHandler = function () {
+    renderCard(pinDate);
+    var buttonPopupClose = mapDialog.querySelector('.popup__close');
+    buttonPopupClose.addEventListener('click', function () {
+      cardCloseHandler();
+    });
+    document.addEventListener('keydown', cardCloseEscPressHandler);
+  };
+
+  var cardCloseHandler = function () {
+    if (mapDialog.querySelector('.map__card')) {
+      mapDialog.querySelector('.map__card').remove();
+    }
+    document.removeEventListener('keydown', cardCloseEscPressHandler);
+  };
+
+  pinElement.addEventListener('click', function () {
+    cardCloseHandler();
+    cardOpenHandler();
+  });
+
+  pinElement.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      cardCloseHandler();
+      cardOpenHandler();
+    }
+  });
+
+  var cardCloseEscPressHandler = function (evt) {
+    if (evt.key === 'Escape') {
+      cardCloseHandler();
+    }
+  };
+
   return pinElement;
 };
 
@@ -375,6 +411,3 @@ mapPins.addEventListener('keydown', function (evt) {
     mapDialogOpenHandler();
   }
 });
-
-
-renderCard(ads[0]);
