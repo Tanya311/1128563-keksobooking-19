@@ -287,7 +287,6 @@ var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var adressAdForm = adForm.querySelector('#address');
 var roomNumber = adForm.querySelector('#room_number');
 var guestsCout = adForm.querySelector('#capacity');
-var title = adForm.querySelector('#title');
 var price = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
@@ -344,18 +343,19 @@ var roomCapacityValidateHandler = function () {
 
 /**
  * функция валидации заголовка объявления
+ * @param {*} evt
  */
-title.addEventListener('invalid', function () {
-  if (title.validity.tooShort) {
-    title.setCustomValidity('Заголовок не может содержать менее 30-ти символов');
-  } else if (title.validity.tooLong) {
-    title.setCustomValidity('Заголовок не должен превышать 100 символов');
-  } else if (title.validity.valueMissing) {
-    title.setCustomValidity('Обязательное поле');
+var titleValidateHandler = function (evt) {
+  if (evt.target.validity.tooShort) {
+    evt.target.setCustomValidity('Заголовок не может содержать менее 30-ти символов');
+  } else if (evt.target.matches('#title').validity.tooLong) {
+    evt.target.setCustomValidity('Заголовок не должен превышать 100 символов');
+  } else if (evt.target.matches('#title').validity.valueMissing) {
+    evt.target.setCustomValidity('Обязательное поле');
   } else {
-    title.setCustomValidity('');
+    evt.target.setCustomValidity('');
   }
-});
+};
 
 /**
  * функция валидации стоимости
@@ -385,15 +385,23 @@ var timeValidateHandler = function (evt) {
   }
 };
 
+/**
+ * функция изменений формы
+ * @param {*} evt
+ */
 function formChangeHandler(evt) {
   if (evt.target.matches('#type')) {
     priceValidateHandler(evt);
   } else if (evt.target.matches('#timein') || evt.target.matches('#timeout')) {
     timeValidateHandler(evt);
+  } else if (evt.target.matches('#title')) {
+    titleValidateHandler(evt);
+  } else if (evt.target.matches('#room_number') || evt.target.matches('#capacity')) {
+    roomCapacityValidateHandler();
   }
 }
 
-adForm.addEventListener('change', roomCapacityValidateHandler);
+
 adForm.addEventListener('change', formChangeHandler);
 
 
