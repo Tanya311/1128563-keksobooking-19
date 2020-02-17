@@ -219,7 +219,35 @@ var renderCard = function (card) {
   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
   mapDialog.insertBefore(cardElement, mapFiltersContainer);
+
+  var buttonPopupClose = mapDialog.querySelector('.popup__close');
+
+  var cardCloseEnterPressHandler = function (evt) {
+    if (evt.key === 'Enter') {
+      closeCard();
+    }
+  };
+
+  buttonPopupClose.addEventListener('click', function () {
+    closeCard();
+  });
+  buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
 };
+
+var closeCard = function () {
+  if (mapDialog.querySelector('.map__card')) {
+    mapDialog.querySelector('.map__card').remove();
+  }
+};
+
+var cardCloseEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    closeCard();
+  }
+};
+
+document.addEventListener('keydown', cardCloseEscPressHandler);
+
 
 /**
  * функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
@@ -235,40 +263,16 @@ var renderPin = function (pinDate) {
   imgElement.src = pinDate.author.avatar;
   imgElement.alt = pinDate.offer.title;
 
-
-  var cardOpenHandler = function () {
-    renderCard(pinDate);
-    var buttonPopupClose = mapDialog.querySelector('.popup__close');
-    buttonPopupClose.addEventListener('click', function () {
-      cardCloseHandler();
-    });
-    document.addEventListener('keydown', cardCloseEscPressHandler);
-  };
-
-  var cardCloseHandler = function () {
+  var pinClickHandler = function () {
     if (mapDialog.querySelector('.map__card')) {
       mapDialog.querySelector('.map__card').remove();
-    }
-    document.removeEventListener('keydown', cardCloseEscPressHandler);
-  };
-
-  pinElement.addEventListener('click', function () {
-    cardCloseHandler();
-    cardOpenHandler();
-  });
-
-  pinElement.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
-      cardCloseHandler();
-      cardOpenHandler();
-    }
-  });
-
-  var cardCloseEscPressHandler = function (evt) {
-    if (evt.key === 'Escape') {
-      cardCloseHandler();
+      renderCard(pinDate);
+    } else {
+      renderCard(pinDate);
     }
   };
+
+  pinElement.addEventListener('click', pinClickHandler);
 
   return pinElement;
 };
