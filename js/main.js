@@ -328,7 +328,7 @@ var mapDialogOpenHandler = function () {
 /**
  * функция валидации комнат для гостей
  */
-var roomCapacityValidateHandler = function () {
+var validatRoomCapacity = function () {
   var rooms = parseInt(roomNumber.value, 10);
   var guests = parseInt(guestsCout.value, 10);
 
@@ -350,7 +350,7 @@ var roomCapacityValidateHandler = function () {
  * функция валидации заголовка объявления
  * @param {*} evt
  */
-var titleValidateHandler = function (evt) {
+var validateTitle = function (evt) {
   if (evt.target.validity.tooShort) {
     evt.target.setCustomValidity('Заголовок не может содержать менее 30-ти символов');
   } else if (evt.target.matches('#title').validity.tooLong) {
@@ -366,7 +366,7 @@ var titleValidateHandler = function (evt) {
  * функция валидации стоимости
  * @param {*} evt
  */
-var priceValidateHandler = function (evt) {
+var validatуPrice = function (evt) {
   var priceOfHouse = {
     'bungalo': 0,
     'flat': 1000,
@@ -382,7 +382,7 @@ var priceValidateHandler = function (evt) {
  * функция валидации времени
  * @param {*} evt
  */
-var timeValidateHandler = function (evt) {
+var validateTimeInOut = function (evt) {
   if (evt.target.matches('#timein')) {
     timeOut.selectedIndex = timeIn.selectedIndex;
   } else {
@@ -396,13 +396,13 @@ var timeValidateHandler = function (evt) {
  */
 function formChangeHandler(evt) {
   if (evt.target.matches('#type')) {
-    priceValidateHandler(evt);
+    validatуPrice(evt);
   } else if (evt.target.matches('#timein') || evt.target.matches('#timeout')) {
-    timeValidateHandler(evt);
+    validateTimeInOut(evt);
   } else if (evt.target.matches('#title')) {
-    titleValidateHandler(evt);
+    validateTitle(evt);
   } else if (evt.target.matches('#room_number') || evt.target.matches('#capacity')) {
-    roomCapacityValidateHandler();
+    validatRoomCapacity();
   }
 }
 
