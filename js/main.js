@@ -120,11 +120,12 @@ var getRandomElementFromArray = function (array) {
  * @return {Array}  - массив случайных элементов случайной длинны
  */
 var generateArrayWithRandomLength = function (originalArray) {
+  var oldArray = originalArray.slice();
   var newArray = [];
-  var length = getRandomNumber(1, originalArray.length);
+  var length = getRandomNumber(1, oldArray.length);
 
   for (var i = 0; i < length; i++) {
-    newArray[i] = getRandomUniqueElementFromArray(originalArray);
+    newArray[i] = getRandomUniqueElementFromArray(oldArray);
   }
   return newArray;
 };
