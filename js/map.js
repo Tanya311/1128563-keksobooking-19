@@ -3,6 +3,7 @@
 (function () {
   var mapDialog = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
+  var mapPinsButton = document.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
   var mapFiltersFormSelect = mapDialog.querySelectorAll('.map__filters select');
   var mapFiltersFormFieldsets = mapDialog.querySelectorAll('.map__filters fieldset');
@@ -38,12 +39,12 @@
   };
 
 
-  mapPins.addEventListener('mousedown', function (evt) {
+  mapPinsButton.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       activatePage();
     }
   });
-  mapPins.addEventListener('keydown', function (evt) {
+  mapPinsButton.addEventListener('keydown', function (evt) {
     if (evt.key === window.data.enterKey) {
       activatePage();
     }
