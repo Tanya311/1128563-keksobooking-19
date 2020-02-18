@@ -9,6 +9,8 @@
   var mapFiltersFormFieldsets = mapDialog.querySelectorAll('.map__filters fieldset');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var adressAdForm = adForm.querySelector('#address');
+  adressAdForm.value = window.data.pinDate.X_START + ' , ' + window.data.pinDate.Y_START;
+  adressAdForm.setAttribute('readonly', 'readonly');
 
   mapFiltersFormSelect.forEach(function (select) {
     select.setAttribute('disabled', 'disabled');
@@ -19,9 +21,6 @@
   adFormFieldsets.forEach(function (fieldset) {
     fieldset.setAttribute('disabled', 'disabled');
   });
-  adressAdForm.setAttribute('readonly', 'readonly');
-  adressAdForm.value = (window.data.parametrOfPins.PIN_WIDTH / 2, window.data.parametrOfPins.MAP_WIDTH - window.data.parametrOfPins.PIN_WIDTH / 2) + ' , ' + (window.data.parametrOfPins.PIN_HEIGTH, window.data.parametrOfPins.MAP_HEIGTH - window.data.parametrOfPins.PIN_HEIGTH * 2);
-
 
   var activatePage = function () {
     mapPins.appendChild(window.pin.mapPinsFragment);
@@ -36,11 +35,12 @@
     mapFiltersFormFieldsets.forEach(function (filterFieldset) {
       filterFieldset.removeAttribute('disabled');
     });
+    adressAdForm.value = (window.data.pinDate.X_START + Math.round(window.data.pinDate.WIDTH / 2)) + ' , ' + (window.data.pinDate.Y_START + window.data.pinDate.HEIGHT);
   };
 
 
   mapPinsButton.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
+    if (evt.button === window.data.mousedownLeftButton) {
       activatePage();
     }
   });

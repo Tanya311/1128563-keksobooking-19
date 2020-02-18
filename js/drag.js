@@ -1,7 +1,9 @@
 // Файл drag.js
 'use strict';
 (function () {
+
   var mapPinsButton = document.querySelector('.map__pin--main');
+  var adFormAddress = document.querySelector('#address');
 
   mapPinsButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -26,6 +28,29 @@
 
       mapPinsButton.style.top = (mapPinsButton.offsetTop - shift.y) + 'px';
       mapPinsButton.style.left = (mapPinsButton.offsetLeft - shift.x) + 'px';
+
+      var left = mapPinsButton.offsetLeft - shift.x;
+      var top = mapPinsButton.offsetTop - shift.y;
+
+      adFormAddress.setAttribute('value', (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT));
+      adFormAddress.value = (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT);
+
+      // органичение перемещения метки
+      if (mapPinsButton.offsetLeft <= (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2))) {
+        mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
+      }
+
+      if (mapPinsButton.offsetLeft >= (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2))) {
+        mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
+      }
+
+      if (mapPinsButton.offsetTop <= (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT)) {
+        mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT) + 'px';
+      }
+
+      if (mapPinsButton.offsetTop >= (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT)) {
+        mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT) + 'px';
+      }
     };
 
     var onMouseUp = function (upEvt) {
@@ -39,9 +64,7 @@
     document.addEventListener('mouseup', onMouseUp);
 
 
-
   });
-
 
 
 })();
