@@ -22,8 +22,25 @@
     fieldset.setAttribute('disabled', 'disabled');
   });
 
+  var deactivationPage = function () {
+    mapFiltersFormSelect.forEach(function (select) {
+      select.setAttribute('disabled', 'disabled');
+    });
+    mapFiltersFormFieldsets.forEach(function (fieldset) {
+      fieldset.setAttribute('disabled', 'disabled');
+    });
+    adFormFieldsets.forEach(function (fieldset) {
+      fieldset.setAttribute('disabled', 'disabled');
+    });
+  };
+
+
   var activatePage = function () {
-    mapPins.appendChild(window.pin.mapPinsFragment);
+    var mapPinsFragment = document.createDocumentFragment();
+    window.moks.ads.forEach(function (pin) {
+      mapPinsFragment.appendChild(window.pin.render(pin));
+    });
+    mapPins.appendChild(mapPinsFragment);
     mapDialog.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     adFormFieldsets.forEach(function (formFieldset) {

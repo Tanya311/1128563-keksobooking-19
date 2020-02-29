@@ -11,8 +11,8 @@
 
   price.setAttribute('max', '1000000');
   /**
-  * функция валидации комнат для гостей
-  */
+   * функция валидации комнат для гостей
+   */
   var validatRoomCapacity = function () {
     var rooms = parseInt(roomNumber.value, 10);
     var guests = parseInt(guestsCout.value, 10);
@@ -31,9 +31,9 @@
   };
 
   /**
-    * функция валидации заголовка объявления
-    * @param {*} evt
-    */
+   * функция валидации заголовка объявления
+   * @param {*} evt
+   */
   var validateTitle = function (evt) {
     switch (true) {
       case evt.target.validity.tooShort:
@@ -51,9 +51,9 @@
   };
 
   /**
-  * функция валидации стоимости
-  * @param {*} evt
-  */
+   * функция валидации стоимости
+   * @param {*} evt
+   */
   var validatуPrice = function (evt) {
     var priceOfHouse = {
       'bungalo': 0,
@@ -66,9 +66,9 @@
   };
 
   /**
-  * функция валидации времени
-  * @param {*} evt
-  */
+   * функция валидации времени
+   * @param {*} evt
+   */
   var validateTimeInOut = function (evt) {
     if (evt.target.matches('#timein')) {
       timeOut.selectedIndex = timeIn.selectedIndex;
@@ -78,9 +78,9 @@
   };
 
   /**
-     * функция изменений формы
-     * @param {*} evt
-     */
+   * функция изменений формы
+   * @param {*} evt
+   */
   // подумать как вынести в правила
   function formChangeHandler(evt) {
     switch (true) {
