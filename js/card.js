@@ -89,8 +89,15 @@
     document.addEventListener('keydown', cardCloseEscPressHandler);
   };
 
+  function removeCard() {
+    var cards = mapDialog.querySelectorAll('.map__card');
+    cards.forEach(function (card) {
+      card.remove();
+    });
+  }
 
   window.cards = {
     renderCard: renderCard,
+    removeCard: removeCard
   };
 })();
