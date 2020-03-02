@@ -2,39 +2,52 @@
 'use strict';
 (function () {
   var mapDialog = document.querySelector('.map');
+  var mapPins = mapDialog.querySelector('.map__pins');
   /**
-  * функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
-  * @param {Object} pinDate - объект объявлений
-  * @return {*}  - шаблон заполненный данными
-  */
-  var renderPin = function (pinDate) {
+   * функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
+   * @param {Object} pinsDate - объект объявлений
+   */
+  var render = function (pinsDate) {
+    var mapPinsFragment = document.createDocumentFragment();
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-    var pinElement = pinTemplate.cloneNode(true);
-    var imgElement = pinElement.querySelector('img');
-    pinElement.style = 'left: ' + pinDate.location.x + 'px; top: ' + pinDate.location.y + 'px;';
-    imgElement.src = pinDate.author.avatar;
-    imgElement.alt = pinDate.offer.title;
+    pinsDate.forEach(function (pinDate) {
+      var pinElement = pinTemplate.cloneNode(true);
+      var imgElement = pinElement.querySelector('img');
+      pinElement.style = 'left: ' + pinDate.location.x + 'px; top: ' + pinDate.location.y + 'px;';
+      imgElement.src = pinDate.author.avatar;
+      imgElement.alt = pinDate.offer.title;
 
-    var pinClickHandler = function () {
-      if (mapDialog.querySelector('.map__card')) {
-        mapDialog.querySelector('.map__card').remove();
+      var pinClickHandler = function () {
+        if (mapDialog.querySelector('.map__card')) {
+          mapDialog.querySelector('.map__card').remove();
+        }
         window.cards.renderCard(pinDate);
-      } else {
-        window.cards.renderCard(pinDate);
-      }
-    };
+      };
 
-    pinElement.addEventListener('click', pinClickHandler);
+      pinElement.addEventListener('click', pinClickHandler);
 
-    return pinElement;
+      mapPinsFragment.appendChild(pinElement);
+    });
+
+    mapPins.appendChild(mapPinsFragment);
   };
 
-  var mapPinsFragment = document.createDocumentFragment();
-  window.moks.ads.forEach(function (pin) {
-    mapPinsFragment.appendChild(renderPin(pin));
-  });
+  /**
+   * функция удаления пинов
+   *
+   */
+  var removePin = function () {
+    var pins = mapPins.querySelectorAll('.map__pin');
+    pins.forEach(function (pin) {
+      if (!pin.classList.contains('map__pin--main')) {
+        pin.remove();
+      }
+    });
+  };
+
 
   window.pin = {
-    mapPinsFragment: mapPinsFragment,
+    render: render,
+    removePin: removePin
   };
 })();

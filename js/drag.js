@@ -32,26 +32,31 @@
       var left = mapPinsButton.offsetLeft - shift.x;
       var top = mapPinsButton.offsetTop - shift.y;
 
-      adFormAddress.setAttribute('value', (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT));
-      adFormAddress.value = (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT);
 
       // органичение перемещения метки
       if (mapPinsButton.offsetLeft <= (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2))) {
         mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
+        left = (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2));
       }
 
       if (mapPinsButton.offsetLeft >= (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2))) {
         mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
+        left = (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2));
       }
 
       if (mapPinsButton.offsetTop <= (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT)) {
         mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT) + 'px';
+        top = (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT);
       }
 
       if (mapPinsButton.offsetTop >= (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT)) {
         mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT) + 'px';
+        top = (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT);
       }
+
+      adFormAddress.value = (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT);
     };
+
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
