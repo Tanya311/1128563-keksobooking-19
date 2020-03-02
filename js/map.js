@@ -11,8 +11,8 @@
   var formResetButton = document.querySelector('.ad-form__reset');
 
   /**
-   * функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
-   * @param {boolean} active - объект объявлений
+   * функция активации и деактивации страницы
+   * @param {boolean} active
    */
   var activatePage = function (active) {
     if (active) {
@@ -35,6 +35,8 @@
       window.cards.removeCard();
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
+      mapPinsButton.style.top = window.data.pinPositionStart.y + 'px';
+      mapPinsButton.style.left = window.data.pinPositionStart.x + 'px';
       adressAdForm.value = window.data.pinDate.X_START + ' , ' + window.data.pinDate.Y_START;
       adressAdForm.setAttribute('readonly', 'readonly');
       mapFiltersFormSelect.forEach(function (select) {

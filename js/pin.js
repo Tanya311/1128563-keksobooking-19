@@ -32,6 +32,10 @@
     mapPins.appendChild(mapPinsFragment);
   };
 
+  /**
+   * функция удаления пинов
+   *
+   */
   var removePin = function () {
     var pins = mapPins.querySelectorAll('.map__pin');
     pins.forEach(function (pin) {

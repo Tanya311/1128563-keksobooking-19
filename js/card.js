@@ -89,6 +89,10 @@
     document.addEventListener('keydown', cardCloseEscPressHandler);
   };
 
+  /**
+   * функция удаления карточек объявлений
+   *
+   */
   function removeCard() {
     var cards = mapDialog.querySelectorAll('.map__card');
     cards.forEach(function (card) {

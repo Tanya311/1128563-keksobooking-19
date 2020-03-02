@@ -39,7 +39,10 @@
     X_START: 570,
     Y_START: 375
   };
-
+  var PinPositionStart = {
+    x: 570,
+    y: 375,
+  };
 
   /**
    * функция генерации случайных чисел
@@ -114,6 +117,7 @@
     features: FEATURES,
     pinMovementLimiting: PinMovementLimiting,
     pinDate: PinDate,
+    pinPositionStart: PinPositionStart,
     getRandomElementFromArray: getRandomElementFromArray,
     generateArrayWithRandomLength: generateArrayWithRandomLength,
     getRandomNumber: getRandomNumber,
