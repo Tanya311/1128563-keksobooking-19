@@ -4,13 +4,14 @@
 (function () {
 
   var URLGet = 'https://js.dump.academy/keksobooking/data';
+  var STATUS_CODE_OK = 200;
 
   var load = function (onLoad) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === STATUS_CODE_OK) {
         onLoad(xhr.response);
       }
     });
