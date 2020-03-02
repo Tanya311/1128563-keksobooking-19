@@ -2,6 +2,13 @@
 'use strict';
 (function () {
 
+  var PriceOfHouse = {
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000
+  };
+
   var adForm = document.querySelector('.ad-form');
   var roomNumber = adForm.querySelector('#room_number');
   var guestsCout = adForm.querySelector('#capacity');
@@ -10,6 +17,7 @@
   var timeOut = adForm.querySelector('#timeout');
 
   price.setAttribute('max', '1000000');
+  price.setAttribute('min', '1000');
   /**
    * функция валидации комнат для гостей
    */
@@ -55,14 +63,8 @@
    * @param {*} evt
    */
   var validatуPrice = function (evt) {
-    var priceOfHouse = {
-      'bungalo': 0,
-      'flat': 1000,
-      'house': 5000,
-      'palace': 10000
-    };
-    price.setAttribute('placeholder', priceOfHouse[evt.target.value]);
-    price.setAttribute('min', priceOfHouse[evt.target.value]);
+    price.placeholder = PriceOfHouse[evt.target.value];
+    price.min = PriceOfHouse[evt.target.value];
   };
 
   /**
