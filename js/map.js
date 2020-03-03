@@ -53,17 +53,18 @@
 
   activatePage(false);
 
-  mapPinsButton.addEventListener('mousedown', function (evt) {
+  var pageActiveHandler = function (evt) {
     if (evt.button === window.data.mousedownLeftButton) {
       activatePage(true);
+      mapPinsButton.removeEventListener('mousedown', pageActiveHandler);
     }
-  });
-  mapPinsButton.addEventListener('keydown', function (evt) {
-    if (evt.key === window.data.enterKey) {
-      activatePage(true);
-    }
-  });
+  };
+
+  mapPinsButton.addEventListener('mousedown', pageActiveHandler);
+  mapPinsButton.addEventListener('keydown', pageActiveHandler);
   formResetButton.addEventListener('click', function () {
     activatePage(false);
+    mapPinsButton.addEventListener('mousedown', pageActiveHandler);
+    mapPinsButton.addEventListener('keydown', pageActiveHandler);
   });
 })();
