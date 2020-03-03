@@ -28,6 +28,13 @@
     ]
   };
 
+  var ParametrOfPins = {
+    MAP_WIDTH: 980,
+    MAP_HEIGTH: 704,
+    PIN_WIDTH: 50,
+    PIN_HEIGTH: 70
+  };
+
   /**
    * функция генерации массива объектов, содержащих информацию объявления
    * @param {number} count - количество объявлений
@@ -36,8 +43,8 @@
   var generateOfferAds = function (count) {
     var offerAd = [];
     for (var i = 0; i < count; i++) {
-      var locationX = window.data.getRandomNumber(window.data.parametrOfPins.PIN_WIDTH / 2, window.data.parametrOfPins.MAP_WIDTH - window.data.parametrOfPins.PIN_WIDTH / 2);
-      var locationY = window.data.getRandomNumber(window.data.parametrOfPins.PIN_HEIGTH, window.data.parametrOfPins.MAP_HEIGTH - window.data.parametrOfPins.PIN_HEIGTH * 2);
+      var locationX = window.data.getRandomNumber(ParametrOfPins.PIN_WIDTH / 2, ParametrOfPins.MAP_WIDTH - ParametrOfPins.PIN_WIDTH / 2);
+      var locationY = window.data.getRandomNumber(ParametrOfPins.PIN_HEIGTH, ParametrOfPins.MAP_HEIGTH - ParametrOfPins.PIN_HEIGTH * 2);
       offerAd[i] = {
         'author': {
           'avatar': 'img/avatars/user0' + (i + 1) + '.png',

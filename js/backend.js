@@ -12,7 +12,6 @@
 
   var main = document.querySelector('main');
 
-
   /**
    * функция загрузки данных с сервера
    * @param {Function} onLoad
@@ -42,6 +41,7 @@
     xhr.open('GET', Url.GET);
     xhr.send();
   };
+
   /**
    * функция отправки данных на сервер
    * @param {Function} data
@@ -91,12 +91,13 @@
       errorTemplate.remove();
     });
     var errorTemplateCloseEscPressHandler = function (evt) {
-      if (evt.key === 'window.data.escapeKey') {
+      if (evt.key === window.data.escapeKey) {
         errorTemplate.remove();
       }
     };
     document.addEventListener('keydown', errorTemplateCloseEscPressHandler);
   };
+
   /**
    * функция вывода сообщения об успешной отправке данных
    */
@@ -106,14 +107,13 @@
     main.addEventListener('click', function () {
       successTemplate.remove();
     });
-    var okSaveTemplateCloseEscPressHandler = function (evt) {
-      if (evt.key === 'window.data.escapeKey') {
+    var successTemplateCloseEscPressHandler = function (evt) {
+      if (evt.key === window.data.escapeKey) {
         successTemplate.remove();
       }
     };
-    document.addEventListener('keydown', okSaveTemplateCloseEscPressHandler);
+    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
   };
-
 
   window.backend = {
     load: load,
