@@ -71,7 +71,7 @@
     var buttonPopupClose = mapDialog.querySelector('.popup__close');
 
     var cardCloseEnterPressHandler = function (evt) {
-      if (evt.key === 'Enter') {
+      if (evt.key === 'window.data.enterKey') {
         cardElement.remove();
       }
     };
@@ -82,7 +82,7 @@
     buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
 
     var cardCloseEscPressHandler = function (evt) {
-      if (evt.key === 'Escape') {
+      if (evt.key === 'window.data.escapeKey') {
         cardElement.remove();
       }
     };

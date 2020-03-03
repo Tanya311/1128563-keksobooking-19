@@ -2,6 +2,7 @@
 'use strict';
 (function () {
   var ENTER_KEY = 'Enter';
+  var ESCAPE_KEY = 'Escape';
   var MOUSEDOWN_LEFT_BUTTON = 0;
   var TYPE = {
     palace: 'Дворец',
@@ -111,6 +112,7 @@
 
   window.data = {
     enterKey: ENTER_KEY,
+    escapeKey: ESCAPE_KEY,
     mousedownLeftButton: MOUSEDOWN_LEFT_BUTTON,
     parametrOfPins: ParametrOfPins,
     type: TYPE,

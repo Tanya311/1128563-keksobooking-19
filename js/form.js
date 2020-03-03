@@ -15,6 +15,7 @@
   var price = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
+  var buttonSubmit = adForm.querySelector('.ad-form__submit');
 
   price.setAttribute('max', '1000000');
   price.setAttribute('min', '1000');
@@ -101,4 +102,12 @@
     }
   }
   adForm.addEventListener('change', formChangeHandler);
+
+  buttonSubmit.addEventListener('click', function (evt) {
+    window.backend.save(new FormData(adForm), function () {
+      window.map.activatePage(false);
+    }, window.backend.errorHandler);
+
+    evt.preventDefault();
+  });
 })();
