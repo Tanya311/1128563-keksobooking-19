@@ -15,7 +15,7 @@
   var price = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-  var buttonSubmit = adForm.querySelector('.ad-form__submit');
+  var main = document.querySelector('main');
 
   price.setAttribute('max', '1000000');
   price.setAttribute('min', '1000');
@@ -101,13 +101,36 @@
         break;
     }
   }
-  adForm.addEventListener('change', formChangeHandler);
 
-  buttonSubmit.addEventListener('click', function (evt) {
+  /**
+   * функция вывода сообщения об успешной отправке данных
+   */
+  var successHandler = function () {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    main.appendChild(successTemplate);
+    main.addEventListener('click', function () {
+      successTemplate.remove();
+    });
+    var successTemplateCloseEscPressHandler = function (evt) {
+      if (evt.key === window.data.escapeKey) {
+        successTemplate.remove();
+      }
+    };
+    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
+  };
+
+  var formSubmitHandler = function (evt) {
     window.backend.save(new FormData(adForm), function () {
       window.map.activatePage(false);
+      successHandler();
     }, window.backend.errorHandler);
-
     evt.preventDefault();
-  });
+  };
+
+  adForm.addEventListener('change', formChangeHandler);
+  window.form = {
+    formSubmitHandler: formSubmitHandler,
+    formChangeHandler: formChangeHandler
+  };
+
 })();

@@ -55,7 +55,6 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_CODE_OK) {
         onLoad(xhr.response);
-        successHandler();
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -98,22 +97,6 @@
     document.addEventListener('keydown', errorTemplateCloseEscPressHandler);
   };
 
-  /**
-   * функция вывода сообщения об успешной отправке данных
-   */
-  var successHandler = function () {
-    var successTemplate = document.querySelector('#success').content.querySelector('.success');
-    main.appendChild(successTemplate);
-    main.addEventListener('click', function () {
-      successTemplate.remove();
-    });
-    var successTemplateCloseEscPressHandler = function (evt) {
-      if (evt.key === window.data.escapeKey) {
-        successTemplate.remove();
-      }
-    };
-    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
-  };
 
   window.backend = {
     load: load,
