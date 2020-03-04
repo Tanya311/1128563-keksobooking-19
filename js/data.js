@@ -2,6 +2,7 @@
 'use strict';
 (function () {
   var ENTER_KEY = 'Enter';
+  var ESCAPE_KEY = 'Escape';
   var MOUSEDOWN_LEFT_BUTTON = 0;
   var TYPE = {
     palace: 'Дворец',
@@ -19,13 +20,6 @@
     'conditioner'
   ];
 
-  var ParametrOfPins = {
-    MAP_WIDTH: 980,
-    MAP_HEIGTH: 704,
-    PIN_WIDTH: 50,
-    PIN_HEIGTH: 70
-  };
-
   var PinMovementLimiting = {
     X_MIN: 0,
     X_MAX: 1200,
@@ -35,13 +29,10 @@
 
   var PinDate = {
     WIDTH: 65,
+    HIGHT_PIN: 65,
     HEIGHT: 87,
     X_START: 570,
     Y_START: 375
-  };
-  var PinPositionStart = {
-    x: 570,
-    y: 375,
   };
 
   /**
@@ -111,17 +102,15 @@
 
   window.data = {
     enterKey: ENTER_KEY,
+    escapeKey: ESCAPE_KEY,
     mousedownLeftButton: MOUSEDOWN_LEFT_BUTTON,
-    parametrOfPins: ParametrOfPins,
     type: TYPE,
     features: FEATURES,
     pinMovementLimiting: PinMovementLimiting,
     pinDate: PinDate,
-    pinPositionStart: PinPositionStart,
     getRandomElementFromArray: getRandomElementFromArray,
     generateArrayWithRandomLength: generateArrayWithRandomLength,
     getRandomNumber: getRandomNumber,
     getPluralForm: getPluralForm
-
   };
 })();

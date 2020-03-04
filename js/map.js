@@ -17,7 +17,7 @@
   var activatePage = function (active) {
     if (active) {
       mapDialog.classList.remove('map--faded');
-      window.backend.load(window.pin.render);
+      window.backend.load(window.pin.render, window.backend.errorHandler);
       adForm.classList.remove('ad-form--disabled');
       adFormFieldsets.forEach(function (formFieldset) {
         formFieldset.removeAttribute('disabled');
@@ -35,9 +35,9 @@
       window.cards.removeCard();
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
-      mapPinsButton.style.top = window.data.pinPositionStart.y + 'px';
-      mapPinsButton.style.left = window.data.pinPositionStart.x + 'px';
-      adressAdForm.value = window.data.pinDate.X_START + ' , ' + window.data.pinDate.Y_START;
+      mapPinsButton.style.top = window.data.pinDate.Y_START + 'px';
+      mapPinsButton.style.left = window.data.pinDate.X_START + 'px';
+      adressAdForm.value = Math.round(window.data.pinDate.X_START + window.data.pinDate.WIDTH / 2) + ' , ' + Math.round(window.data.pinDate.Y_START + window.data.pinDate.HIGHT_PIN / 2);
       adressAdForm.setAttribute('readonly', 'readonly');
       mapFiltersFormSelect.forEach(function (select) {
         select.setAttribute('disabled', 'disabled');
@@ -53,17 +53,25 @@
 
   activatePage(false);
 
-  mapPinsButton.addEventListener('mousedown', function (evt) {
+  var pageActiveHandler = function (evt) {
     if (evt.button === window.data.mousedownLeftButton) {
       activatePage(true);
+      mapPinsButton.removeEventListener('mousedown', pageActiveHandler);
     }
-  });
-  mapPinsButton.addEventListener('keydown', function (evt) {
-    if (evt.key === window.data.enterKey) {
-      activatePage(true);
-    }
-  });
+  };
+
+  mapPinsButton.addEventListener('mousedown', pageActiveHandler);
+  mapPinsButton.addEventListener('keydown', pageActiveHandler);
+
   formResetButton.addEventListener('click', function () {
     activatePage(false);
+    mapPinsButton.addEventListener('mousedown', pageActiveHandler);
+    mapPinsButton.addEventListener('keydown', pageActiveHandler);
   });
+
+  window.map = {
+    activatePage: activatePage,
+    pageActiveHandler: pageActiveHandler
+  };
+
 })();
