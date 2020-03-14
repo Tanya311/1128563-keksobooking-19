@@ -4,10 +4,26 @@
 'use strict';
 
 (function () {
+  var priceRangeMap = {
+    low: {
+      min: 0,
+      max: 10000
+    },
+    middle: {
+      min: 10000,
+      max: 50000
+    },
+    high: {
+      min: 50000,
+      max: Infinity
+    }
+  };
+
   var mapFilters = document.querySelector('.map__filters');
   var housingType = mapFilters.querySelector('#housing-type');
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
+  var housingPrice = mapFilters.querySelector('#housing-price');
 
   var filteredAds = [];
 
@@ -18,6 +34,15 @@
    */
   var filteringType = function (ad) {
     return housingType.value === 'any' ? true : ad.offer.type === housingType.value;
+  };
+
+  /**
+   * функция фильтрации объявлений по цене жилья
+   * @param {object} ad
+   * @return {boolean}
+   */
+  var filteringPrice = function (ad) {
+    return housingPrice.value === 'any' ? true : priceRangeMap[housingPrice.value].min <= ad.offer.price && priceRangeMap[housingPrice.value].max >= ad.offer.price;
   };
 
   /**
@@ -46,6 +71,7 @@
   var filtersAds = function (ads) {
     filteredAds = ads
       .filter(filteringType)
+      .filter(filteringPrice)
       .filter(filteringRoom)
       .filter(filteringGuests);
     window.debounce.debounce(function () {
