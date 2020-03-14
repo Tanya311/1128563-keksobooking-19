@@ -34,8 +34,8 @@
       adForm.addEventListener('submit', window.form.formSubmitHandler, window.form.formChangeHandler);
     } else {
       mapDialog.classList.add('map--faded');
-      window.pin.removePin();
-      window.cards.removeCard();
+      window.pin.remove();
+      window.cards.remove();
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
       mapPinsButton.style.top = window.data.pinDate.Y_START + 'px';
@@ -44,6 +44,7 @@
       adressAdForm.setAttribute('readonly', 'readonly');
       mapFiltersFormSelect.forEach(function (select) {
         select.setAttribute('disabled', 'disabled');
+        select.value = 'any';
       });
       mapFiltersFormFieldsets.forEach(function (fieldset) {
         fieldset.setAttribute('disabled', 'disabled');

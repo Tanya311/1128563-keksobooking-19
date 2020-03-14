@@ -101,7 +101,7 @@
   }
 
   window.cards = {
-    renderCard: renderCard,
-    removeCard: removeCard
+    render: renderCard,
+    remove: removeCard
   };
 })();

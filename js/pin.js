@@ -22,7 +22,7 @@
       if (mapDialog.querySelector('.map__card')) {
         mapDialog.querySelector('.map__card').remove();
       }
-      window.cards.renderCard(pinDate);
+      window.cards.render(pinDate);
     };
 
     pinElement.addEventListener('click', pinClickHandler);
@@ -63,6 +63,6 @@
 
   window.pin = {
     render: renderPins,
-    removePin: removePin
+    remove: removePin
   };
 })();
