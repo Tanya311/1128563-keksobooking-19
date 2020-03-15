@@ -24,6 +24,7 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
   var housingPrice = mapFilters.querySelector('#housing-price');
+  var featuresArray = Array.from(mapFilters.querySelectorAll('.map__checkbox'));
 
   var filteredAds = [];
 
@@ -63,17 +64,34 @@
     return housingGuests.value === 'any' ? true : ad.offer.guests === parseInt(housingGuests.value, 10);
   };
 
+  /**
+   * функция фильтрации объявлений по фитчам
+   * @param {object} ad
+   * @return {Array}
+   */
+  var filteringFeatures = function (ad) {
+    return featuresArray
+      .filter(function (checkedFeature) {
+        return checkedFeature.checked;
+      })
+      .every(function (checkedFeature) {
+        return (ad.offer.features.some(function (adFeature) {
+          return checkedFeature.value === adFeature;
+        }));
+      });
+  };
 
   /**
    * Функция фильтрации отображаемых объявлений
-   * @param {array} ads - массив объектов объявлений
+   * @param {Array} ads - массив объектов объявлений
    */
   var filtersAds = function (ads) {
     filteredAds = ads
       .filter(filteringType)
       .filter(filteringPrice)
       .filter(filteringRoom)
-      .filter(filteringGuests);
+      .filter(filteringGuests)
+      .filter(filteringFeatures);
     window.debounce.debounce(function () {
       window.pin.render(filteredAds);
     });
