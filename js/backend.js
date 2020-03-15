@@ -9,6 +9,8 @@
     'GET': 'https://js.dump.academy/keksobooking/data',
     'POST': 'https://js.dump.academy/keksobooking'
   };
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
 
   var main = document.querySelector('main');
 
@@ -64,7 +66,6 @@
    * функция вывода сообщения об ошибках
    */
   var errorHandler = function () {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var buttonErrorTemplate = errorTemplate.querySelector('.error__button');
     errorTemplate.style = 'z-index: 100';
     errorTemplate.style.position = 'fixed';
