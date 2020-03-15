@@ -7,7 +7,7 @@
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(cb, 300);
+    lastTimeout = window.setTimeout(cb, 500);
   };
   window.debounce = {
     debounce: debounce
