@@ -32,8 +32,8 @@
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = window.data.type[card.offer.type];
-    cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' ' + window.data.getPluralForm(ROOMS_FORMS, card.offer.rooms) + ' для ' + card.offer.guests + ' ' + window.data.getPluralForm(GUESTS_FORMS, card.offer.guests);
+    cardElement.querySelector('.popup__type').textContent = window.util.type[card.offer.type];
+    cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' ' + window.util.getPluralForm(ROOMS_FORMS, card.offer.rooms) + ' для ' + card.offer.guests + ' ' + window.util.getPluralForm(GUESTS_FORMS, card.offer.guests);
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
 
     var features = cardElement.querySelector('.popup__features');
@@ -71,7 +71,7 @@
     var buttonPopupClose = mapDialog.querySelector('.popup__close');
 
     var cardCloseEnterPressHandler = function (evt) {
-      if (evt.key === 'window.data.enterKey') {
+      if (evt.key === window.util.enterKey) {
         cardElement.remove();
       }
     };
@@ -82,7 +82,7 @@
     buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
 
     var cardCloseEscPressHandler = function (evt) {
-      if (evt.key === 'window.data.escapeKey') {
+      if (evt.key === window.util.escapeKey) {
         cardElement.remove();
       }
     };

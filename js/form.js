@@ -114,7 +114,7 @@
   };
 
   var successTemplateCloseEscPressHandler = function (evt) {
-    if (evt.key === window.data.escapeKey) {
+    if (evt.key === window.util.escapeKey) {
       successTemplate.remove();
     }
   };

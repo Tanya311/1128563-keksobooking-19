@@ -28,7 +28,7 @@
       mapFiltersFormFieldsets.forEach(function (filterFieldset) {
         filterFieldset.removeAttribute('disabled');
       });
-      adressAdForm.value = (window.data.pinDate.X_START + Math.round(window.data.pinDate.WIDTH / 2)) + ' , ' + (window.data.pinDate.Y_START + window.data.pinDate.HEIGHT);
+      adressAdForm.value = (window.util.pinDate.X_START + Math.round(window.util.pinDate.WIDTH / 2)) + ' , ' + (window.util.pinDate.Y_START + window.util.pinDate.HEIGHT);
       mapPinsButton.removeEventListener('mousedown', pageActiveHandler);
       mapPinsButton.removeEventListener('keydown', pageActiveHandler);
       adForm.addEventListener('submit', window.form.formSubmitHandler);
@@ -39,9 +39,9 @@
       window.cards.remove();
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
-      mapPinsButton.style.top = window.data.pinDate.Y_START + 'px';
-      mapPinsButton.style.left = window.data.pinDate.X_START + 'px';
-      adressAdForm.value = Math.round(window.data.pinDate.X_START + window.data.pinDate.WIDTH / 2) + ' , ' + Math.round(window.data.pinDate.Y_START + window.data.pinDate.HIGHT_PIN / 2);
+      mapPinsButton.style.top = window.util.pinDate.Y_START + 'px';
+      mapPinsButton.style.left = window.util.pinDate.X_START + 'px';
+      adressAdForm.value = Math.round(window.util.pinDate.X_START + window.util.pinDate.WIDTH / 2) + ' , ' + Math.round(window.util.pinDate.Y_START + window.util.pinDate.HIGHT_PIN / 2);
       adressAdForm.setAttribute('readonly', 'readonly');
       mapFiltersFormSelect.forEach(function (select) {
         select.setAttribute('disabled', 'disabled');
@@ -61,7 +61,7 @@
   activatePage(false);
 
   var pageActiveHandler = function (evt) {
-    if (evt.button === window.data.mousedownLeftButton) {
+    if (evt.button === window.util.mousedownLeftButton) {
       activatePage(true);
     }
   };

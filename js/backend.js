@@ -79,7 +79,7 @@
       errorTemplate.remove();
     });
     var errorTemplateCloseEscPressHandler = function (evt) {
-      if (evt.key === window.data.escapeKey) {
+      if (evt.key === window.util.escapeKey) {
         errorTemplate.remove();
       }
     };

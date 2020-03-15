@@ -100,7 +100,7 @@
     return forms[idx] || '';
   };
 
-  window.data = {
+  window.util = {
     enterKey: ENTER_KEY,
     escapeKey: ESCAPE_KEY,
     mousedownLeftButton: MOUSEDOWN_LEFT_BUTTON,
