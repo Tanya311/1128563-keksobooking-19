@@ -101,23 +101,24 @@
         break;
     }
   }
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
 
   /**
    * функция вывода сообщения об успешной отправке данных
    */
   var successHandler = function () {
-    var successTemplate = document.querySelector('#success').content.querySelector('.success');
     main.appendChild(successTemplate);
     main.addEventListener('click', function () {
       successTemplate.remove();
     });
-    var successTemplateCloseEscPressHandler = function (evt) {
-      if (evt.key === window.data.escapeKey) {
-        successTemplate.remove();
-      }
-    };
-    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
   };
+
+  var successTemplateCloseEscPressHandler = function (evt) {
+    if (evt.key === window.data.escapeKey) {
+      successTemplate.remove();
+    }
+  };
+  document.addEventListener('keydown', successTemplateCloseEscPressHandler);
 
   var formSubmitHandler = function (evt) {
     window.backend.save(new FormData(adForm), function () {
@@ -127,7 +128,6 @@
     evt.preventDefault();
   };
 
-  adForm.addEventListener('change', formChangeHandler);
   window.form = {
     formSubmitHandler: formSubmitHandler,
     formChangeHandler: formChangeHandler

@@ -71,6 +71,8 @@
     main.appendChild(errorTemplate);
     buttonErrorTemplate.addEventListener('click', function () {
       errorTemplate.remove();
+
+
     });
     main.addEventListener('click', function () {
       errorTemplate.remove();
