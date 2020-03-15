@@ -2,7 +2,7 @@
 'use strict';
 (function () {
 
-  var PriceOfHouse = {
+  var priceOfHouseMap = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
@@ -15,7 +15,9 @@
   var price = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-  var buttonSubmit = adForm.querySelector('.ad-form__submit');
+  var main = document.querySelector('main');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+
 
   price.setAttribute('max', '1000000');
   price.setAttribute('min', '1000');
@@ -64,8 +66,8 @@
    * @param {*} evt
    */
   var validatуPrice = function (evt) {
-    price.placeholder = PriceOfHouse[evt.target.value];
-    price.min = PriceOfHouse[evt.target.value];
+    price.placeholder = priceOfHouseMap[evt.target.value];
+    price.min = priceOfHouseMap[evt.target.value];
   };
 
   /**
@@ -101,13 +103,34 @@
         break;
     }
   }
-  adForm.addEventListener('change', formChangeHandler);
+  /**
+   * функция вывода сообщения об успешной отправке данных
+   */
+  var successHandler = function () {
+    main.appendChild(successTemplate);
+    main.addEventListener('click', function () {
+      successTemplate.remove();
+    });
+  };
 
-  buttonSubmit.addEventListener('click', function (evt) {
+  var successTemplateCloseEscPressHandler = function (evt) {
+    if (evt.key === window.util.escapeKey) {
+      successTemplate.remove();
+    }
+  };
+  document.addEventListener('keydown', successTemplateCloseEscPressHandler);
+
+  var formSubmitHandler = function (evt) {
     window.backend.save(new FormData(adForm), function () {
       window.map.activatePage(false);
+      successHandler();
     }, window.backend.errorHandler);
-
     evt.preventDefault();
-  });
+  };
+
+  window.form = {
+    formSubmitHandler: formSubmitHandler,
+    formChangeHandler: formChangeHandler
+  };
+
 })();

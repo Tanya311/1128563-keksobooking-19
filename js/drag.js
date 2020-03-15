@@ -34,27 +34,27 @@
 
 
       // органичение перемещения метки
-      if (mapPinsButton.offsetLeft <= (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2))) {
-        mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
-        left = (window.data.pinMovementLimiting.X_MIN - Math.round(window.data.pinDate.WIDTH / 2));
+      if (mapPinsButton.offsetLeft <= (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2))) {
+        mapPinsButton.style.left = (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2)) + 'px';
+        left = (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2));
       }
 
-      if (mapPinsButton.offsetLeft >= (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2))) {
-        mapPinsButton.style.left = (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2)) + 'px';
-        left = (window.data.pinMovementLimiting.X_MAX - Math.round(window.data.pinDate.WIDTH / 2));
+      if (mapPinsButton.offsetLeft >= (window.util.pinMovementLimiting.X_MAX - Math.round(window.util.pinDate.WIDTH / 2))) {
+        mapPinsButton.style.left = (window.util.pinMovementLimiting.X_MAX - Math.round(window.util.pinDate.WIDTH / 2)) + 'px';
+        left = (window.util.pinMovementLimiting.X_MAX - Math.round(window.util.pinDate.WIDTH / 2));
       }
 
-      if (mapPinsButton.offsetTop <= (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT)) {
-        mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT) + 'px';
-        top = (window.data.pinMovementLimiting.Y_MIN - window.data.pinDate.HEIGHT);
+      if (mapPinsButton.offsetTop <= (window.util.pinMovementLimiting.Y_MIN - window.util.pinDate.HEIGHT)) {
+        mapPinsButton.style.top = (window.util.pinMovementLimiting.Y_MIN - window.util.pinDate.HEIGHT) + 'px';
+        top = (window.util.pinMovementLimiting.Y_MIN - window.util.pinDate.HEIGHT);
       }
 
-      if (mapPinsButton.offsetTop >= (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT)) {
-        mapPinsButton.style.top = (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT) + 'px';
-        top = (window.data.pinMovementLimiting.Y_MAX - window.data.pinDate.HEIGHT);
+      if (mapPinsButton.offsetTop >= (window.util.pinMovementLimiting.Y_MAX - window.util.pinDate.HEIGHT)) {
+        mapPinsButton.style.top = (window.util.pinMovementLimiting.Y_MAX - window.util.pinDate.HEIGHT) + 'px';
+        top = (window.util.pinMovementLimiting.Y_MAX - window.util.pinDate.HEIGHT);
       }
 
-      adFormAddress.value = (left + Math.round(window.data.pinDate.WIDTH / 2)) + ', ' + (top + window.data.pinDate.HEIGHT);
+      adFormAddress.value = (left + Math.round(window.util.pinDate.WIDTH / 2)) + ', ' + (top + window.util.pinDate.HEIGHT);
     };
 
 
