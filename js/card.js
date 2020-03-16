@@ -15,9 +15,6 @@
 
   var mapDialog = document.querySelector('.map');
 
-
-  // mapDialog.classList.remove('map--faded');
-
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var mapFiltersContainer = document.querySelector('.map__filters-container');
 
@@ -70,25 +67,32 @@
 
     var buttonPopupClose = mapDialog.querySelector('.popup__close');
 
-    var cardCloseEnterPressHandler = function (evt) {
-      if (evt.key === window.util.enterKey) {
-        cardElement.remove();
-        window.pin.removeClassActiveForPin();
-      }
-    };
-
-    buttonPopupClose.addEventListener('click', function () {
+    var closeCard = function () {
       cardElement.remove();
       window.pin.removeClassActiveForPin();
-    });
-    buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
+      document.removeEventListener('keydown', cardCloseEscPressHandler);
+      buttonPopupClose.removeEventListener('keydown', cardCloseEnterPressHandler);
+      buttonPopupClose.removeEventListener('click', buttonCloseCardHandler);
+    };
+
+    var cardCloseEnterPressHandler = function (evt) {
+      if (evt.key === window.util.enterKey) {
+        closeCard();
+      }
+    };
 
     var cardCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
-        cardElement.remove();
-        window.pin.removeClassActiveForPin();
+        closeCard();
       }
     };
+
+    var buttonCloseCardHandler = function () {
+      closeCard();
+    };
+
+    buttonPopupClose.addEventListener('click', buttonCloseCardHandler);
+    buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
     document.addEventListener('keydown', cardCloseEscPressHandler);
   };
 
@@ -96,14 +100,14 @@
    * функция удаления карточек объявлений
    *
    */
-  function removeCard() {
+  var removeCard = function () {
     var cards = mapDialog.querySelectorAll('.map__card');
     cards.forEach(function (card) {
       card.remove();
     });
-  }
+  };
 
-  window.cards = {
+  window.card = {
     render: renderCard,
     remove: removeCard
   };
