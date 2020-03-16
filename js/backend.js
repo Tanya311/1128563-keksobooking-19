@@ -10,10 +10,15 @@
     'POST': 'https://js.dump.academy/keksobooking'
   };
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
-
   var main = document.querySelector('main');
 
+  /** @function
+   * @name createXhr
+   * @description создает xhr запрос
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
+   * @return {XMLHttpRequest} xhr
+   */
   var createXhr = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -37,47 +42,51 @@
     return xhr;
   };
 
-  /**
-   * функция загрузки данных с сервера
-   * @param {Function} onLoad
-   * @param {Function} onError
+  /** @function
+   * @name loadAds
+   * @description загрузка данных с сервера
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
    */
-  var load = function (onLoad, onError) {
+  var loadAds = function (onLoad, onError) {
     var xhr = createXhr(onLoad, onError);
 
     xhr.open('GET', Url.GET);
     xhr.send();
   };
 
-  /**
-   * функция отправки данных на сервер
-   * @param {Function} data
-   * @param {Function} onLoad
-   * @param {Function} onError
+  /** @function
+   * @name saveAd
+   * @description загрузка данных с сервера данных с сервера
+   * @param {function} data
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
    */
-  var save = function (data, onLoad, onError) {
+  var saveAd = function (data, onLoad, onError) {
     var xhr = createXhr(onLoad, onError);
 
     xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 
-  /**
-   * функция вывода сообщения об ошибках
+  /** @function
+   * @name errorHandler
+   * @description Вывод сообщения об ошибке
    */
   var errorHandler = function () {
     var buttonErrorTemplate = errorTemplate.querySelector('.error__button');
-    errorTemplate.style = 'z-index: 100';
-    errorTemplate.style.position = 'fixed';
     main.appendChild(errorTemplate);
-    buttonErrorTemplate.addEventListener('click', function () {
-      errorTemplate.remove();
 
-
-    });
-    main.addEventListener('click', function () {
+    var closeErrorHandler = function () {
       errorTemplate.remove();
-    });
+      buttonErrorTemplate.removeEventListener('click', closeErrorHandler);
+      main.removeEventListener('click', closeErrorHandler);
+      document.removeEventListener('keydown', errorTemplateCloseEscPressHandler);
+    };
+
+    buttonErrorTemplate.addEventListener('click', closeErrorHandler);
+    main.addEventListener('click', closeErrorHandler);
+
     var errorTemplateCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
         errorTemplate.remove();
@@ -88,8 +97,8 @@
 
 
   window.backend = {
-    load: load,
-    save: save,
+    load: loadAds,
+    save: saveAd,
     errorHandler: errorHandler,
   };
 
