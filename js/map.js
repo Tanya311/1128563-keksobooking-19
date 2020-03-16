@@ -58,7 +58,6 @@
     }
   };
 
-  activatePage(false);
 
   var pageActiveHandler = function (evt) {
     if (evt.button === window.util.mousedownLeftButton) {
@@ -66,8 +65,7 @@
     }
   };
 
-  mapPinsButton.addEventListener('mousedown', pageActiveHandler);
-  mapPinsButton.addEventListener('keydown', pageActiveHandler);
+  activatePage(false);
 
   formResetButton.addEventListener('click', function () {
     activatePage(false);
