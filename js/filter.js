@@ -87,18 +87,18 @@
    * @param {Array}  - массив объектов объявлений
    */
   var filterFormChangeHandler = function () {
-    filteredAds = window.map.defaultAdverts;
+    filteredAds = window.defaultAdverts;
     filteredAds = filteredAds.filter(filteringType)
       .filter(filteringPrice)
       .filter(filteringRoom)
       .filter(filteringGuests)
       .filter(filteringFeatures);
-    window.debounce.debounce(updatePins);
+    window.util.debounce(updatePins);
   };
 
 
   function updatePins() {
-    window.cards.remove();
+    window.card.remove();
     window.pin.remove();
     window.pin.render(filteredAds);
   }

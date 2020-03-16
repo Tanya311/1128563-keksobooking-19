@@ -36,7 +36,7 @@
     } else {
       mapDialog.classList.add('map--faded');
       window.pin.remove();
-      window.cards.remove();
+      window.card.remove();
       adForm.classList.add('ad-form--disabled');
       adForm.reset();
       mapPinsButton.style.top = window.util.pinDate.Y_START + 'px';
@@ -74,7 +74,7 @@
   var successHandler = function (data) {
     window.defaultAdverts = data;
     window.pin.render(data);
-  }
+  };
 
 
   window.map = {

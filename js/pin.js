@@ -23,7 +23,7 @@
         mapDialog.querySelector('.map__card').remove();
         removeClassActiveForPin();
       }
-      window.cards.render(pinDate);
+      window.card.render(pinDate);
       pinElement.classList.add('map__pin--active');
     };
 

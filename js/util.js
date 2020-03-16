@@ -20,6 +20,8 @@
     'conditioner'
   ];
 
+  var DEBOUNCE_INTERVAL = 500;
+
   var PinMovementLimiting = {
     X_MIN: 0,
     X_MAX: 1200,
@@ -34,6 +36,8 @@
     X_START: 570,
     Y_START: 375
   };
+
+  var lastTimeout;
 
   /**
    * функция генерации случайных чисел
@@ -100,6 +104,14 @@
     return forms[idx] || '';
   };
 
+
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   window.util = {
     enterKey: ENTER_KEY,
     escapeKey: ESCAPE_KEY,
@@ -111,6 +123,7 @@
     getRandomElementFromArray: getRandomElementFromArray,
     generateArrayWithRandomLength: generateArrayWithRandomLength,
     getRandomNumber: getRandomNumber,
-    getPluralForm: getPluralForm
+    getPluralForm: getPluralForm,
+    debounce: debounce
   };
 })();
