@@ -17,7 +17,7 @@
   var activatePage = function (active) {
     if (active) {
       mapDialog.classList.remove('map--faded');
-      window.backend.load(window.pin.render, window.backend.errorHandler);
+      window.backend.load(successHandler, window.backend.errorHandler);
       adForm.classList.remove('ad-form--disabled');
       adFormFieldsets.forEach(function (formFieldset) {
         formFieldset.removeAttribute('disabled');
@@ -71,9 +71,15 @@
     activatePage(false);
   });
 
+  var successHandler = function (data) {
+    window.defaultAdverts = data;
+    window.pin.render(data);
+  }
+
+
   window.map = {
     activatePage: activatePage,
-    pageActiveHandler: pageActiveHandler
+    pageActiveHandler: pageActiveHandler,
   };
 
 })();

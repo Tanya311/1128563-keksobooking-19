@@ -26,7 +26,8 @@
   var housingPrice = mapFilters.querySelector('#housing-price');
   var featuresArray = Array.from(mapFilters.querySelectorAll('.map__checkbox'));
 
-  var filteredAds = [];
+  var filteredAds;
+
 
   /**
    * функция фильтрации объявлений по типу
@@ -83,26 +84,24 @@
 
   /**
    * Функция фильтрации отображаемых объявлений
-   * @param {Array} ads - массив объектов объявлений
+   * @param {Array}  - массив объектов объявлений
    */
-  var filtersAds = function (ads) {
-    filteredAds = ads
-      .filter(filteringType)
+  var filterFormChangeHandler = function () {
+    filteredAds = window.map.defaultAdverts;
+    filteredAds = filteredAds.filter(filteringType)
       .filter(filteringPrice)
       .filter(filteringRoom)
       .filter(filteringGuests)
       .filter(filteringFeatures);
-    window.debounce.debounce(function () {
-      window.pin.render(filteredAds);
-    });
+    window.debounce.debounce(updatePins);
   };
 
 
-  var filterFormChangeHandler = function () {
+  function updatePins() {
     window.cards.remove();
     window.pin.remove();
-    window.backend.load(filtersAds);
-  };
+    window.pin.render(filteredAds);
+  }
 
   mapFilters.addEventListener('change', filterFormChangeHandler);
 })();
