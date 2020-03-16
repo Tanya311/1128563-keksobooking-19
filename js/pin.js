@@ -21,14 +21,25 @@
     var pinClickHandler = function () {
       if (mapDialog.querySelector('.map__card')) {
         mapDialog.querySelector('.map__card').remove();
+        removeClassActiveForPin();
       }
       window.cards.render(pinDate);
+      pinElement.classList.add('map__pin--active');
     };
 
     pinElement.addEventListener('click', pinClickHandler);
     return pinElement;
   };
 
+  /**
+   * функция удаления класса active у меток
+   */
+  var removeClassActiveForPin = function () {
+    var activePin = document.querySelector('.map__pin--active');
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+  };
 
   /** @function
    * @name renderPins
@@ -63,6 +74,7 @@
 
   window.pin = {
     render: renderPins,
+    removeClassActiveForPin: removeClassActiveForPin,
     remove: removePin
   };
 })();

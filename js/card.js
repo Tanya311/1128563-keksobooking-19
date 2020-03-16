@@ -73,17 +73,20 @@
     var cardCloseEnterPressHandler = function (evt) {
       if (evt.key === window.util.enterKey) {
         cardElement.remove();
+        window.pin.removeClassActiveForPin();
       }
     };
 
     buttonPopupClose.addEventListener('click', function () {
       cardElement.remove();
+      window.pin.removeClassActiveForPin();
     });
     buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
 
     var cardCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
         cardElement.remove();
+        window.pin.removeClassActiveForPin();
       }
     };
     document.addEventListener('keydown', cardCloseEscPressHandler);
