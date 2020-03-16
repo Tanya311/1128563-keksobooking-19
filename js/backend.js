@@ -77,29 +77,36 @@
     var buttonErrorTemplate = errorTemplate.querySelector('.error__button');
     main.appendChild(errorTemplate);
 
-    var closeErrorHandler = function () {
+    var closeError = function () {
       errorTemplate.remove();
-      buttonErrorTemplate.removeEventListener('click', closeErrorHandler);
-      main.removeEventListener('click', closeErrorHandler);
+      buttonErrorTemplate.removeEventListener('click', buttonErrorClickHandler);
+      main.removeEventListener('click', mainClickHandler);
       document.removeEventListener('keydown', errorTemplateCloseEscPressHandler);
     };
 
-    buttonErrorTemplate.addEventListener('click', closeErrorHandler);
-    main.addEventListener('click', closeErrorHandler);
+    var buttonErrorClickHandler = function () {
+      closeError();
+    };
+
+    var mainClickHandler = function () {
+      closeError();
+    };
 
     var errorTemplateCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
-        errorTemplate.remove();
+        closeError();
       }
     };
     document.addEventListener('keydown', errorTemplateCloseEscPressHandler);
+    buttonErrorTemplate.addEventListener('click', buttonErrorClickHandler);
+    main.addEventListener('click', mainClickHandler);
   };
 
 
   window.backend = {
     load: loadAds,
     save: saveAd,
-    errorHandler: errorHandler,
+    errorHandler: errorHandler
   };
 
 })();
