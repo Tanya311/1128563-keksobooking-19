@@ -76,7 +76,7 @@
     photosPreview.querySelectorAll('.ad-form__photo img').forEach(function (photo) {
       photo.remove();
     });
-  }
+  };
 
   window.upload = {
     removePhoto: removePhoto
