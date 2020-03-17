@@ -31,6 +31,7 @@
   var disabledForm = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
+    window.upload.removePhoto();
     adressAdForm.value = Math.round(window.util.pinDate.X_START + window.util.pinDate.WIDTH / 2) + ' , ' + Math.round(window.util.pinDate.Y_START + window.util.pinDate.HIGHT_PIN / 2);
     adressAdForm.setAttribute('readonly', 'readonly');
     adFormFieldsets.forEach(function (fieldset) {
