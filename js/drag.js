@@ -5,16 +5,20 @@
   var mapPinsButton = document.querySelector('.map__pin--main');
   var adFormAddress = document.querySelector('#address');
 
-  mapPinsButton.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+  /* Обработчики событий */
+  /** @function
+   * @name mapPinsButtonHandler
+   * @description перемещение главного пина по карте
+   * @param {event} evt
+   */
+  var mapPinsButtonHandler = function (evt) {
 
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
+    var mouseMoveHandler = function (moveEvt) {
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -31,9 +35,6 @@
 
       var left = mapPinsButton.offsetLeft - shift.x;
       var top = mapPinsButton.offsetTop - shift.y;
-
-
-      // органичение перемещения метки
       if (mapPinsButton.offsetLeft <= (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2))) {
         mapPinsButton.style.left = (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2)) + 'px';
         left = (window.util.pinMovementLimiting.X_MIN - Math.round(window.util.pinDate.WIDTH / 2));
@@ -58,18 +59,16 @@
     };
 
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+    var mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
 
+  };
 
-  });
-
+  mapPinsButton.addEventListener('mousedown', mapPinsButtonHandler);
 
 })();
