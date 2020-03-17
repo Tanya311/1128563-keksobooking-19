@@ -9,6 +9,13 @@
     'palace': 10000
   };
 
+  var roomCapacityMap = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0]
+  };
+
   var adForm = document.querySelector('.ad-form');
   var roomNumber = adForm.querySelector('#room_number');
   var guestsCout = adForm.querySelector('#capacity');
@@ -27,13 +34,7 @@
     var rooms = parseInt(roomNumber.value, 10);
     var guests = parseInt(guestsCout.value, 10);
 
-    var roomGuests = {
-      1: [1],
-      2: [1, 2],
-      3: [1, 2, 3],
-      100: [0]
-    };
-    if (roomGuests[rooms].indexOf(guests) === -1) {
+    if (roomCapacityMap[rooms].indexOf(guests) === -1) {
       guestsCout.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
     } else {
       guestsCout.setCustomValidity('');

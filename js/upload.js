@@ -12,19 +12,30 @@
   var photosPreview = document.querySelector('.ad-form__photo');
 
   /**
-   * @name avatarUploadHandler
-   * @description функция загрузки аватара
-   * @param {evt} evt
+   * @name checTypeFile
+   * @description функция проверки типа файла
+   * @param {*} file
+   * @return {*}
    */
-  var avatarUploadHandler = function (evt) {
-    var file = evt.target.files[0];
+  var checTypeFile = function (file) {
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
 
-    if (matches) {
+    return matches;
+  };
+
+  /**
+   * @name avatarUploadHandler
+   * @description функция загрузки аватара
+   * @param {evt} evt
+   */
+  var avatarUploadHandler = function (evt) {
+    var file = evt.target.files[0];
+
+    if (checTypeFile(file)) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
@@ -42,13 +53,8 @@
    */
   var photoUploadHandler = function (evt) {
     var file = evt.target.files[0];
-    var fileName = file.name.toLowerCase();
 
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
+    if (checTypeFile(file)) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
