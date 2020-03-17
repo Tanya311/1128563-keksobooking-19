@@ -7,7 +7,8 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   /**
-   * функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
+   * @name makePin
+   * @description функция клонирования шаблона и заполнения его данными: заголовок, ссылка на аватар, местоположение на карте
    * @param {object} pinDate принимает объявление
    * @return {object} возвращает pinElement
    */
@@ -32,7 +33,8 @@
   };
 
   /**
-   * функция удаления класса active у меток
+   * @name removeClassActiveForPin
+   * @description функция удаления класса active у меток
    */
   var removeClassActiveForPin = function () {
     var activePin = document.querySelector('.map__pin--active');
@@ -41,12 +43,12 @@
     }
   };
 
-  /** @function
+  /**
    * @name renderPins
    * @description Вставляет пины в разметку
    * @param {array} pins массив объявлений
    */
-  function renderPins(pins) {
+  var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
 
     pins.slice(0, MAX_COUNT_PINS).forEach(function (pin) {
@@ -56,11 +58,11 @@
     });
 
     mapDialog.querySelector('.map__pins').appendChild(fragment);
-  }
+  };
 
   /**
-   * функция удаления пинов
-   *
+   * @name removePin
+   * @description функция удаления пинов
    */
   var removePin = function () {
     var pins = mapPins.querySelectorAll('.map__pin');
@@ -71,10 +73,9 @@
     });
   };
 
-
   window.pin = {
     render: renderPins,
-    removeClassActiveForPin: removeClassActiveForPin,
+    removeClassActive: removeClassActiveForPin,
     remove: removePin
   };
 })();

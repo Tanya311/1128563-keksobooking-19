@@ -69,7 +69,7 @@
 
     var closeCard = function () {
       cardElement.remove();
-      window.pin.removeClassActiveForPin();
+      window.pin.removeClassActive();
       document.removeEventListener('keydown', cardCloseEscPressHandler);
       buttonPopupClose.removeEventListener('keydown', cardCloseEnterPressHandler);
       buttonPopupClose.removeEventListener('click', buttonCloseCardHandler);
