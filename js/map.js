@@ -31,8 +31,8 @@
       adressAdForm.value = (window.util.pinDate.X_START + Math.round(window.util.pinDate.WIDTH / 2)) + ' , ' + (window.util.pinDate.Y_START + window.util.pinDate.HEIGHT);
       mapPinsButton.removeEventListener('mousedown', pageActiveHandler);
       mapPinsButton.removeEventListener('keydown', pageActiveHandler);
-      adForm.addEventListener('submit', window.form.formSubmitHandler);
-      adForm.addEventListener('change', window.form.formChangeHandler);
+      adForm.addEventListener('submit', window.form.submitHandler);
+      adForm.addEventListener('change', window.form.changeHandler);
     } else {
       mapDialog.classList.add('map--faded');
       window.pin.remove();

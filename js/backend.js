@@ -10,6 +10,7 @@
     'POST': 'https://js.dump.academy/keksobooking'
   };
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var main = document.querySelector('main');
 
   /** @function
@@ -102,11 +103,40 @@
     main.addEventListener('click', mainClickHandler);
   };
 
+  /**
+   * @name successMessege
+   * @description функция вывода сообщения об успешной отправке данных
+   */
+  var successMessege = function () {
+    main.appendChild(successTemplate);
+    var successMessegeClose = function () {
+      successTemplate.remove();
+      main.removeEventListener('click', successMessegeClose);
+      document.removeEventListener('keydown', successTemplateCloseEscPressHandler);
+    };
+    var successTemplateCloseEscPressHandler = function (evt) {
+      if (evt.key === window.util.escapeKey) {
+        successMessegeClose();
+      }
+    };
+    main.addEventListener('click', successMessegeClose);
+    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
+  };
+
+  /**
+   * @name dataLoadHandler
+   * @description функция успешной загрузки данных
+   */
+  var dataLoadHandler = function () {
+    window.map.activatePage(false);
+    successMessege();
+  };
 
   window.backend = {
     load: loadAds,
     save: saveAd,
-    errorHandler: errorHandler
+    errorHandler: errorHandler,
+    dataLoadHandler: dataLoadHandler
   };
 
 })();

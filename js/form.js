@@ -15,14 +15,13 @@
   var price = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-  var main = document.querySelector('main');
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
-
 
   price.setAttribute('max', '1000000');
   price.setAttribute('min', '1000');
+
   /**
-   * функция валидации комнат для гостей
+   * @name validatRoomCapacity
+   * @description функция валидации комнат для гостей
    */
   var validatRoomCapacity = function () {
     var rooms = parseInt(roomNumber.value, 10);
@@ -42,7 +41,8 @@
   };
 
   /**
-   * функция валидации заголовка объявления
+   * @name validateTitle
+   * @description функция валидации заголовка объявления
    * @param {*} evt
    */
   var validateTitle = function (evt) {
@@ -62,7 +62,8 @@
   };
 
   /**
-   * функция валидации стоимости
+   * @name validatуPrice
+   * @description функция валидации стоимости
    * @param {*} evt
    */
   var validatуPrice = function (evt) {
@@ -71,7 +72,8 @@
   };
 
   /**
-   * функция валидации времени
+   * @name validateTimeInOut
+   * @description функция валидации времени
    * @param {*} evt
    */
   var validateTimeInOut = function (evt) {
@@ -83,11 +85,11 @@
   };
 
   /**
-   * функция изменений формы
+   * @name formChangeHandler
+   * @description функция изменений формы
    * @param {*} evt
    */
-  // подумать как вынести в правила
-  function formChangeHandler(evt) {
+  var formChangeHandler = function (evt) {
     switch (true) {
       case evt.target.matches('#type'):
         validatуPrice(evt);
@@ -102,35 +104,21 @@
         validatRoomCapacity();
         break;
     }
-  }
+  };
+
   /**
-   * функция вывода сообщения об успешной отправке данных
+   * @name formSubmitHandler
+   * @description функция отправки формы
+   * @param {*} evt
    */
-  var successHandler = function () {
-    main.appendChild(successTemplate);
-    main.addEventListener('click', function () {
-      successTemplate.remove();
-    });
-  };
-
-  var successTemplateCloseEscPressHandler = function (evt) {
-    if (evt.key === window.util.escapeKey) {
-      successTemplate.remove();
-    }
-  };
-  document.addEventListener('keydown', successTemplateCloseEscPressHandler);
-
   var formSubmitHandler = function (evt) {
-    window.backend.save(new FormData(adForm), function () {
-      window.map.activatePage(false);
-      successHandler();
-    }, window.backend.errorHandler);
+    window.backend.save(new FormData(adForm), window.backend.dataLoadHandler, window.backend.errorHandler);
     evt.preventDefault();
   };
 
   window.form = {
-    formSubmitHandler: formSubmitHandler,
-    formChangeHandler: formChangeHandler
+    submitHandler: formSubmitHandler,
+    changeHandler: formChangeHandler
   };
 
 })();
