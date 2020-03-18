@@ -123,8 +123,8 @@
    * @param {*} data
    */
   var successHandler = function (data) {
-    window.defaultAdverts = data;
-    window.pin.render(data);
+    window.util.defaultAdverts = data;
+    window.pin.render(window.util.defaultAdverts);
     activateFilter();
   };
 

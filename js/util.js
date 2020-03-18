@@ -29,6 +29,7 @@
   };
 
   var lastTimeout;
+  var defaultAdverts = [];
 
   /**
    * @name getRandomNumber
@@ -123,6 +124,7 @@
     generateArrayWithRandomLength: generateArrayWithRandomLength,
     getRandomNumber: getRandomNumber,
     getPluralForm: getPluralForm,
-    debounce: debounce
+    debounce: debounce,
+    defaultAdverts: defaultAdverts
   };
 })();

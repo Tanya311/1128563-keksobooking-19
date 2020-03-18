@@ -89,7 +89,7 @@
    * @description Функция фильтрации отображаемых объявлений
    */
   var filterFormChangeHandler = function () {
-    filteredAds = window.defaultAdverts;
+    filteredAds = window.util.defaultAdverts;
     filteredAds = filteredAds.filter(filteringType)
       .filter(filteringPrice)
       .filter(filteringRoom)
