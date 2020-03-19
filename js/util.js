@@ -4,21 +4,7 @@
   var ENTER_KEY = 'Enter';
   var ESCAPE_KEY = 'Escape';
   var MOUSEDOWN_LEFT_BUTTON = 0;
-  var TYPE = {
-    palace: 'Дворец',
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalo: 'Бунгало'
-  };
-
-  var FEATURES = [
-    'wifi',
-    'dishwasher',
-    'parking',
-    'washer',
-    'elevator',
-    'conditioner'
-  ];
+  var DEBOUNCE_INTERVAL = 500;
 
   var PinMovementLimiting = {
     X_MIN: 0,
@@ -35,8 +21,19 @@
     Y_START: 375
   };
 
+  var typeOfHouseMap = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+
+  var lastTimeout;
+  var defaultAdverts = [];
+
   /**
-   * функция генерации случайных чисел
+   * @name getRandomNumber
+   * @description функция генерации случайных чисел
    * @param {number} min - минимальное значение
    * @param {number} max - максимальное значение
    * @return {number} случайное число из диапазона
@@ -46,7 +43,8 @@
   };
 
   /**
-   * функция возвращает случайный элемент из массива без повторений
+   * @name getRandomUniqueElementFromArray
+   * @description функция возвращает случайный элемент из массива без повторений
    * @param {Array} array - массив
    * @return {*}  - рандомный элемент из массива
    */
@@ -57,7 +55,8 @@
   };
 
   /**
-   * функция возвращает случайный элемент из массива
+   * @name getRandomElementFromArray
+   * @description функция возвращает случайный элемент из массива
    * @param {Array} array - массив
    * @return {*}  - рандомный элемент из массива
    */
@@ -67,7 +66,8 @@
   };
 
   /**
-   * функция создает массив случайных элементов случайной длинны
+   * @name generateArrayWithRandomLength
+   * @description функция создает массив случайных элементов случайной длинны
    * @param {Array} originalArray - массив
    * @return {Array}  - массив случайных элементов случайной длинны
    */
@@ -83,7 +83,8 @@
   };
 
   /**
-   * функция создания правильных окончаний
+   * @name getPluralForm
+   * @description функция создания правильных окончаний
    * @param {Array<String>} forms
    * @param {Number} n
    * @return {String}
@@ -100,17 +101,30 @@
     return forms[idx] || '';
   };
 
+  /**
+   * @name debounce
+   * @description функция устранения дреббезга
+   * @param {function} cb
+   */
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   window.util = {
     enterKey: ENTER_KEY,
     escapeKey: ESCAPE_KEY,
     mousedownLeftButton: MOUSEDOWN_LEFT_BUTTON,
-    type: TYPE,
-    features: FEATURES,
+    typeOfHouseMap: typeOfHouseMap,
     pinMovementLimiting: PinMovementLimiting,
     pinDate: PinDate,
     getRandomElementFromArray: getRandomElementFromArray,
     generateArrayWithRandomLength: generateArrayWithRandomLength,
     getRandomNumber: getRandomNumber,
-    getPluralForm: getPluralForm
+    getPluralForm: getPluralForm,
+    debounce: debounce,
+    defaultAdverts: defaultAdverts
   };
 })();

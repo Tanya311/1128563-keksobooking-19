@@ -10,10 +10,16 @@
     'POST': 'https://js.dump.academy/keksobooking'
   };
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
-
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var main = document.querySelector('main');
 
+  /** @function
+   * @name createXhr
+   * @description создает xhr запрос
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
+   * @return {XMLHttpRequest} xhr
+   */
   var createXhr = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -37,60 +43,100 @@
     return xhr;
   };
 
-  /**
-   * функция загрузки данных с сервера
-   * @param {Function} onLoad
-   * @param {Function} onError
+  /** @function
+   * @name loadAds
+   * @description загрузка данных с сервера
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
    */
-  var load = function (onLoad, onError) {
+  var loadAds = function (onLoad, onError) {
     var xhr = createXhr(onLoad, onError);
 
     xhr.open('GET', Url.GET);
     xhr.send();
   };
 
-  /**
-   * функция отправки данных на сервер
-   * @param {Function} data
-   * @param {Function} onLoad
-   * @param {Function} onError
+  /** @function
+   * @name saveAd
+   * @description загрузка данных с сервера данных с сервера
+   * @param {function} data
+   * @param {function} onLoad callback при успешной загрузки данных
+   * @param {function} onError callback при ошибках загрузки данных
    */
-  var save = function (data, onLoad, onError) {
+  var saveAd = function (data, onLoad, onError) {
     var xhr = createXhr(onLoad, onError);
 
     xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 
-  /**
-   * функция вывода сообщения об ошибках
+  /** @function
+   * @name errorHandler
+   * @description Вывод сообщения об ошибке
    */
   var errorHandler = function () {
     var buttonErrorTemplate = errorTemplate.querySelector('.error__button');
-    errorTemplate.style = 'z-index: 100';
-    errorTemplate.style.position = 'fixed';
     main.appendChild(errorTemplate);
-    buttonErrorTemplate.addEventListener('click', function () {
-      errorTemplate.remove();
 
-
-    });
-    main.addEventListener('click', function () {
+    var closeError = function () {
       errorTemplate.remove();
-    });
+      buttonErrorTemplate.removeEventListener('click', buttonErrorClickHandler);
+      main.removeEventListener('click', mainClickHandler);
+      document.removeEventListener('keydown', errorTemplateCloseEscPressHandler);
+    };
+
+    var buttonErrorClickHandler = function () {
+      closeError();
+    };
+
+    var mainClickHandler = function () {
+      closeError();
+    };
+
     var errorTemplateCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
-        errorTemplate.remove();
+        closeError();
       }
     };
     document.addEventListener('keydown', errorTemplateCloseEscPressHandler);
+    buttonErrorTemplate.addEventListener('click', buttonErrorClickHandler);
+    main.addEventListener('click', mainClickHandler);
   };
 
+  /**
+   * @name successMessege
+   * @description функция вывода сообщения об успешной отправке данных
+   */
+  var successMessege = function () {
+    main.appendChild(successTemplate);
+    var successMessegeClose = function () {
+      successTemplate.remove();
+      main.removeEventListener('click', successMessegeClose);
+      document.removeEventListener('keydown', successTemplateCloseEscPressHandler);
+    };
+    var successTemplateCloseEscPressHandler = function (evt) {
+      if (evt.key === window.util.escapeKey) {
+        successMessegeClose();
+      }
+    };
+    main.addEventListener('click', successMessegeClose);
+    document.addEventListener('keydown', successTemplateCloseEscPressHandler);
+  };
+
+  /**
+   * @name dataLoadHandler
+   * @description функция успешной загрузки данных
+   */
+  var dataLoadHandler = function () {
+    window.map.activatePage(false);
+    successMessege();
+  };
 
   window.backend = {
-    load: load,
-    save: save,
+    load: loadAds,
+    save: saveAd,
     errorHandler: errorHandler,
+    dataLoadHandler: dataLoadHandler
   };
 
 })();

@@ -1,6 +1,4 @@
-// Файл filter
-
-
+// Файл filter.js
 'use strict';
 
 (function () {
@@ -26,11 +24,12 @@
   var housingPrice = mapFilters.querySelector('#housing-price');
   var featuresArray = Array.from(mapFilters.querySelectorAll('.map__checkbox'));
 
-  var filteredAds = [];
+  var filteredAds;
 
   /**
-   * функция фильтрации объявлений по типу
-   * @param {object} ad
+   * @name filteringType
+   * @description функция фильтрации объявлений по типу
+   * @param {Object} ad
    * @return {boolean}
    */
   var filteringType = function (ad) {
@@ -38,8 +37,9 @@
   };
 
   /**
-   * функция фильтрации объявлений по цене жилья
-   * @param {object} ad
+   * @name filteringPrice
+   * @description функция фильтрации объявлений по цене жилья
+   * @param {Object} ad
    * @return {boolean}
    */
   var filteringPrice = function (ad) {
@@ -47,8 +47,9 @@
   };
 
   /**
-   * функция фильтрации объявлений по колличеству комнат
-   * @param {object} ad
+   * @name filteringRoom
+   * @description функция фильтрации объявлений по колличеству комнат
+   * @param {Object} ad
    * @return {boolean}
    */
   var filteringRoom = function (ad) {
@@ -56,8 +57,9 @@
   };
 
   /**
-   * функция фильтрации объявлений по колличеству гостей
-   * @param {object} ad
+   * @name filteringGuests
+   * @description функция фильтрации объявлений по колличеству гостей
+   * @param {Object} ad
    * @return {boolean}
    */
   var filteringGuests = function (ad) {
@@ -65,7 +67,8 @@
   };
 
   /**
-   * функция фильтрации объявлений по фитчам
+   * @name filteringFeatures
+   * @description функция фильтрации объявлений по фитчам
    * @param {object} ad
    * @return {Array}
    */
@@ -82,26 +85,27 @@
   };
 
   /**
-   * Функция фильтрации отображаемых объявлений
-   * @param {Array} ads - массив объектов объявлений
+   * @name filterFormChangeHandler
+   * @description Функция фильтрации отображаемых объявлений
    */
-  var filtersAds = function (ads) {
-    filteredAds = ads
-      .filter(filteringType)
+  var filterFormChangeHandler = function () {
+    filteredAds = window.util.defaultAdverts;
+    filteredAds = filteredAds.filter(filteringType)
       .filter(filteringPrice)
       .filter(filteringRoom)
       .filter(filteringGuests)
       .filter(filteringFeatures);
-    window.debounce.debounce(function () {
-      window.pin.render(filteredAds);
-    });
+    window.util.debounce(updatePins);
   };
 
-
-  var filterFormChangeHandler = function () {
-    window.cards.remove();
+  /**
+   * @name updatePins
+   * @description обновление пинов на карте
+   */
+  var updatePins = function () {
+    window.card.remove();
     window.pin.remove();
-    window.backend.load(filtersAds);
+    window.pin.render(filteredAds);
   };
 
   mapFilters.addEventListener('change', filterFormChangeHandler);

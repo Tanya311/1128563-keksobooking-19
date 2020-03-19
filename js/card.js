@@ -15,9 +15,6 @@
 
   var mapDialog = document.querySelector('.map');
 
-
-  // mapDialog.classList.remove('map--faded');
-
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var mapFiltersContainer = document.querySelector('.map__filters-container');
 
@@ -32,7 +29,7 @@
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = window.util.type[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = window.util.typeOfHouseMap[card.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' ' + window.util.getPluralForm(ROOMS_FORMS, card.offer.rooms) + ' для ' + card.offer.guests + ' ' + window.util.getPluralForm(GUESTS_FORMS, card.offer.guests);
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
 
@@ -70,22 +67,32 @@
 
     var buttonPopupClose = mapDialog.querySelector('.popup__close');
 
-    var cardCloseEnterPressHandler = function (evt) {
-      if (evt.key === window.util.enterKey) {
-        cardElement.remove();
-      }
+    var closeCard = function () {
+      cardElement.remove();
+      window.pin.removeClassActive();
+      document.removeEventListener('keydown', cardCloseEscPressHandler);
+      buttonPopupClose.removeEventListener('keydown', cardCloseEnterPressHandler);
+      buttonPopupClose.removeEventListener('click', buttonCloseCardHandler);
     };
 
-    buttonPopupClose.addEventListener('click', function () {
-      cardElement.remove();
-    });
-    buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
+    var cardCloseEnterPressHandler = function (evt) {
+      if (evt.key === window.util.enterKey) {
+        closeCard();
+      }
+    };
 
     var cardCloseEscPressHandler = function (evt) {
       if (evt.key === window.util.escapeKey) {
-        cardElement.remove();
+        closeCard();
       }
     };
+
+    var buttonCloseCardHandler = function () {
+      closeCard();
+    };
+
+    buttonPopupClose.addEventListener('click', buttonCloseCardHandler);
+    buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
     document.addEventListener('keydown', cardCloseEscPressHandler);
   };
 
@@ -93,14 +100,14 @@
    * функция удаления карточек объявлений
    *
    */
-  function removeCard() {
+  var removeCard = function () {
     var cards = mapDialog.querySelectorAll('.map__card');
     cards.forEach(function (card) {
       card.remove();
     });
-  }
+  };
 
-  window.cards = {
+  window.card = {
     render: renderCard,
     remove: removeCard
   };
