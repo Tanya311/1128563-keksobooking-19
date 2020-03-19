@@ -2,7 +2,7 @@
 'use strict';
 (function () {
   var mapDialog = document.querySelector('.map');
-  var mapPinsButton = document.querySelector('.map__pin--main');
+  var mapPinMain = document.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
   var mapFiltersFormSelect = mapDialog.querySelectorAll('.map__filters select');
   var mapFiltersFormCheckbox = mapDialog.querySelectorAll('.map__checkbox');
@@ -77,8 +77,8 @@
       mapDialog.classList.remove('map--faded');
       window.backend.load(successHandler, window.backend.errorHandler);
       activateForm();
-      mapPinsButton.removeEventListener('mousedown', pageActiveHandler);
-      mapPinsButton.removeEventListener('keydown', pageActiveHandler);
+      mapPinMain.removeEventListener('mousedown', pageActiveHandler);
+      mapPinMain.removeEventListener('keydown', pageActiveHandler);
       formResetButton.addEventListener('click', formResetButtonHandler);
 
     } else {
@@ -86,14 +86,14 @@
       window.pin.remove();
       window.card.remove();
 
-      mapPinsButton.style.top = window.util.pinDate.Y_START + 'px';
-      mapPinsButton.style.left = window.util.pinDate.X_START + 'px';
+      mapPinMain.style.top = window.util.pinDate.Y_START + 'px';
+      mapPinMain.style.left = window.util.pinDate.X_START + 'px';
 
       disabledFilter();
       disabledForm();
 
-      mapPinsButton.addEventListener('mousedown', pageActiveHandler);
-      mapPinsButton.addEventListener('keydown', pageActiveHandler);
+      mapPinMain.addEventListener('mousedown', pageActiveHandler);
+      mapPinMain.addEventListener('keydown', pageActiveHandler);
     }
   };
 
