@@ -5,7 +5,7 @@
   var mapPinsButton = document.querySelector('.map__pin--main');
   var adForm = document.querySelector('.ad-form');
   var mapFiltersFormSelect = mapDialog.querySelectorAll('.map__filters select');
-  var mapFiltersFormFieldsets = mapDialog.querySelectorAll('.map__filters fieldset');
+  var mapFiltersFormCheckbox = mapDialog.querySelectorAll('.map__checkbox');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var adressAdForm = adForm.querySelector('#address');
   var formResetButton = document.querySelector('.ad-form__reset');
@@ -46,9 +46,11 @@
   var activateFilter = function () {
     mapFiltersFormSelect.forEach(function (filterSelect) {
       filterSelect.removeAttribute('disabled');
+      filterSelect.value = 'any';
     });
-    mapFiltersFormFieldsets.forEach(function (filterFieldset) {
-      filterFieldset.removeAttribute('disabled');
+    mapFiltersFormCheckbox.forEach(function (filterCheckbox) {
+      filterCheckbox.removeAttribute('disabled');
+      filterCheckbox.checked = false;
     });
   };
 
@@ -58,10 +60,10 @@
    */
   var disabledFilter = function () {
     mapFiltersFormSelect.forEach(function (filterSelect) {
-      filterSelect.removeAttribute('disabled');
+      filterSelect.setAttribute('disabled', 'disabled');
     });
-    mapFiltersFormFieldsets.forEach(function (filterFieldset) {
-      filterFieldset.removeAttribute('disabled');
+    mapFiltersFormCheckbox.forEach(function (filterCheckbox) {
+      filterCheckbox.setAttribute('disabled', 'disabled');
     });
   };
 
