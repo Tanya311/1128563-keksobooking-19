@@ -107,7 +107,6 @@
     }
   };
 
-
   /**
    * @name validatуPrice
    * @description функция валидации поля стоимости жилья
@@ -123,12 +122,12 @@
         price.setCustomValidity('Цена должная быть равна или больше ' + min);
         break;
       case price.validity.rangeOverflow:
-        price.setCustomValidity('Цена должная быть равна или меньше 1000000');
+        price.setCustomValidity('Цена должная быть равна или меньше' + PRICE_MAX);
         break;
       case price.validity.valueMissing:
         price.setCustomValidity('Обязательное поле');
         break;
-      case !price.validity.valueMissing:
+      default:
         price.setCustomValidity('');
         price.style.border = BORDER_VALID_STYLE;
     }
