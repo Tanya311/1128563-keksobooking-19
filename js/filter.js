@@ -22,80 +22,102 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
   var housingPrice = mapFilters.querySelector('#housing-price');
-  var featuresArray = Array.from(mapFilters.querySelectorAll('.map__checkbox'));
 
   var filteredAds;
 
   /**
-   * @name filteringType
+   * @name makeFilterAdsByType
    * @description функция фильтрации объявлений по типу
    * @param {Object} ad
    * @return {boolean}
    */
-  var filteringType = function (ad) {
-    return housingType.value === 'any' ? true : ad.offer.type === housingType.value;
+  var makeFilterAdsByType = function (ad) {
+    var housingTypeFlag = false;
+    if (housingType.value === window.util.anyValue || housingType.value === ad.offer.type) {
+      housingTypeFlag = true;
+    }
+    return housingTypeFlag;
   };
 
   /**
-   * @name filteringPrice
+   * @name makeFilterAdsByPrice
    * @description функция фильтрации объявлений по цене жилья
    * @param {Object} ad
    * @return {boolean}
    */
-  var filteringPrice = function (ad) {
-    return housingPrice.value === 'any' ? true : priceRangeMap[housingPrice.value].min <= ad.offer.price && priceRangeMap[housingPrice.value].max >= ad.offer.price;
+  var makeFilterAdsByPrice = function (ad) {
+    var housingPriceFlag = false;
+    if (housingPrice.value === window.util.anyValue || priceRangeMap[housingPrice.value].min <= ad.offer.price && priceRangeMap[housingPrice.value].max >= ad.offer.price) {
+      housingPriceFlag = true;
+    }
+    return housingPriceFlag;
   };
 
   /**
-   * @name filteringRoom
+   * @name makeFilterAdsByRoom
    * @description функция фильтрации объявлений по колличеству комнат
    * @param {Object} ad
    * @return {boolean}
    */
-  var filteringRoom = function (ad) {
-    return housingRooms.value === 'any' ? true : ad.offer.rooms === parseInt(housingRooms.value, 10);
+  var makeFilterAdsByRoom = function (ad) {
+    var housingRoomsFlag = false;
+    if (housingRooms.value === window.util.anyValue || ad.offer.rooms === parseInt(housingRooms.value, 10)) {
+      housingRoomsFlag = true;
+    }
+    return housingRoomsFlag;
   };
 
   /**
-   * @name filteringGuests
+   * @name makeFilterAdsByGuests
    * @description функция фильтрации объявлений по колличеству гостей
    * @param {Object} ad
    * @return {boolean}
    */
-  var filteringGuests = function (ad) {
-    return housingGuests.value === 'any' ? true : ad.offer.guests === parseInt(housingGuests.value, 10);
+  var makeFilterAdsByGuests = function (ad) {
+    var housingGuestsFlag = false;
+    if (housingGuests.value === window.util.anyValue ||
+      ad.offer.guests === parseInt(housingGuests.value, 10)) {
+      housingGuestsFlag = true;
+    }
+    return housingGuestsFlag;
   };
 
   /**
-   * @name filteringFeatures
+   * @name makeFilterAdsByFeatures
    * @description функция фильтрации объявлений по фитчам
    * @param {object} ad
-   * @return {Array}
+   * @return {*}
    */
-  var filteringFeatures = function (ad) {
-    return featuresArray
-      .filter(function (checkedFeature) {
-        return checkedFeature.checked;
-      })
-      .every(function (checkedFeature) {
-        return (ad.offer.features.some(function (adFeature) {
-          return checkedFeature.value === adFeature;
-        }));
-      });
+  var makeFilterAdsByFeatures = function (ad) {
+    var featureFlag = true;
+    var featuresChecked = mapFilters.querySelectorAll('.map__checkbox:checked');
+    featuresChecked.forEach(function (feature) {
+      featureFlag = featureFlag && ad.offer.features.includes(feature.value);
+    });
+    return featureFlag;
   };
 
   /**
-   * @name filterFormChangeHandler
-   * @description Функция фильтрации отображаемых объявлений
+   * @name filterForm
+   * @description Функция фильтрации отображаемых объявлений, получаемых с сервера
+   * @return {Array}
    */
-  var filterFormChangeHandler = function () {
+  var filterForm = function () {
     filteredAds = window.util.defaultAdverts;
-    filteredAds = filteredAds.filter(filteringType)
-      .filter(filteringPrice)
-      .filter(filteringRoom)
-      .filter(filteringGuests)
-      .filter(filteringFeatures);
-    window.util.debounce(updatePins);
+    var ads = [];
+    for (var i = 0; i < filteredAds.length; i++) {
+      if (makeFilterAdsByType(filteredAds[i]) &&
+          makeFilterAdsByFeatures(filteredAds[i]) &&
+          makeFilterAdsByPrice(filteredAds[i]) &&
+          makeFilterAdsByRoom(filteredAds[i]) &&
+          makeFilterAdsByGuests(filteredAds[i])) {
+        ads.push(filteredAds[i]);
+        if (ads.length === window.util.maxCountPins) {
+          break;
+        }
+      }
+    }
+    return ads;
   };
 
   /**
@@ -105,7 +127,15 @@
   var updatePins = function () {
     window.card.remove();
     window.pin.remove();
-    window.pin.render(filteredAds);
+    window.pin.render(filterForm());
+  };
+
+  /**
+   * @name filterFormChangeHandler
+   * @description обработчик
+   */
+  var filterFormChangeHandler = function () {
+    window.util.debounce(updatePins);
   };
 
   mapFilters.addEventListener('change', filterFormChangeHandler);

@@ -3,41 +3,9 @@
 (function () {
   var mapDialog = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var adForm = document.querySelector('.ad-form');
   var mapFiltersFormSelect = mapDialog.querySelectorAll('.map__filters select');
   var mapFiltersFormCheckbox = mapDialog.querySelectorAll('.map__checkbox');
-  var adFormFieldsets = adForm.querySelectorAll('fieldset');
-  var adressAdForm = adForm.querySelector('#address');
   var formResetButton = document.querySelector('.ad-form__reset');
-
-  /**
-   * @name activateForm
-   * @description функция разблокировки формы
-   */
-  var activateForm = function () {
-    adForm.classList.remove('ad-form--disabled');
-    adFormFieldsets.forEach(function (formFieldset) {
-      formFieldset.removeAttribute('disabled');
-    });
-    adressAdForm.value = (window.util.pinDate.X_START + Math.round(window.util.pinDate.WIDTH / 2)) + ' , ' + (window.util.pinDate.Y_START + window.util.pinDate.HEIGHT);
-    adForm.addEventListener('submit', window.form.submitHandler);
-    adForm.addEventListener('change', window.form.changeHandler);
-  };
-
-  /**
-   * @name disabledForm
-   * @description функция блокировки формы
-   */
-  var disabledForm = function () {
-    adForm.classList.add('ad-form--disabled');
-    adForm.reset();
-    window.upload.removePhoto();
-    adressAdForm.value = Math.round(window.util.pinDate.X_START + window.util.pinDate.WIDTH / 2) + ' , ' + Math.round(window.util.pinDate.Y_START + window.util.pinDate.HIGHT_PIN / 2);
-    adressAdForm.setAttribute('readonly', 'readonly');
-    adFormFieldsets.forEach(function (fieldset) {
-      fieldset.setAttribute('disabled', 'disabled');
-    });
-  };
 
   /**
    * @name activateFilter
@@ -46,7 +14,7 @@
   var activateFilter = function () {
     mapFiltersFormSelect.forEach(function (filterSelect) {
       filterSelect.removeAttribute('disabled');
-      filterSelect.value = 'any';
+      filterSelect.value = window.util.anyValue;
     });
     mapFiltersFormCheckbox.forEach(function (filterCheckbox) {
       filterCheckbox.removeAttribute('disabled');
@@ -76,10 +44,10 @@
     if (active) {
       mapDialog.classList.remove('map--faded');
       window.backend.load(successHandler, window.backend.errorHandler);
-      activateForm();
-      mapPinMain.removeEventListener('mousedown', pageActiveHandler);
-      mapPinMain.removeEventListener('keydown', pageActiveHandler);
-      formResetButton.addEventListener('click', formResetButtonHandler);
+      window.form.activate();
+      mapPinMain.removeEventListener('mousedown', mapPinMainMousedownHandler);
+      mapPinMain.removeEventListener('keydown', mapPinMainEnterPressHandler);
+      formResetButton.addEventListener('click', formResetButtonClickHandler);
 
     } else {
       mapDialog.classList.add('map--faded');
@@ -90,10 +58,21 @@
       mapPinMain.style.left = window.util.pinDate.X_START + 'px';
 
       disabledFilter();
-      disabledForm();
+      window.form.disabled();
 
-      mapPinMain.addEventListener('mousedown', pageActiveHandler);
-      mapPinMain.addEventListener('keydown', pageActiveHandler);
+      mapPinMain.addEventListener('mousedown', mapPinMainMousedownHandler);
+      mapPinMain.addEventListener('keydown', mapPinMainEnterPressHandler);
+    }
+  };
+
+  /**
+   * @name mapPinMainMousedownHandler
+   * @description функция активации страницы по нажатию на кнопку мыши
+   * @param {evt} evt
+   */
+  var mapPinMainMousedownHandler = function (evt) {
+    if (evt.button === window.util.mousedownLeftButton) {
+      activatePage(true);
     }
   };
 
@@ -102,8 +81,8 @@
    * @description функция активации страницы по нажатию на кнопку мыши
    * @param {evt} evt
    */
-  var pageActiveHandler = function (evt) {
-    if (evt.button === window.util.mousedownLeftButton) {
+  var mapPinMainEnterPressHandler = function (evt) {
+    if (evt.key === window.util.enterKey) {
       activatePage(true);
     }
   };
@@ -114,9 +93,9 @@
    * @name formResetButtonHandler
    * @description функция дезактивации страницы по нажатию на кнопку reset
    */
-  var formResetButtonHandler = function () {
+  var formResetButtonClickHandler = function () {
     activatePage(false);
-    formResetButton.removeEventListener('click', formResetButtonHandler);
+    formResetButton.removeEventListener('click', formResetButtonClickHandler);
   };
 
   /**

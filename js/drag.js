@@ -11,7 +11,7 @@
    * @description перемещение главного пина по карте
    * @param {event} evt
    */
-  var mapPinMainHandler = function (evt) {
+  var mapPinMainMousedownHandler = function (evt) {
 
     var startCoords = {
       x: evt.clientX,
@@ -69,6 +69,6 @@
 
   };
 
-  mapPinMain.addEventListener('mousedown', mapPinMainHandler);
+  mapPinMain.addEventListener('mousedown', mapPinMainMousedownHandler);
 
 })();

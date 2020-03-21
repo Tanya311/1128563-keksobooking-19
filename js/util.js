@@ -5,6 +5,8 @@
   var ESCAPE_KEY = 'Escape';
   var MOUSEDOWN_LEFT_BUTTON = 0;
   var DEBOUNCE_INTERVAL = 500;
+  var ANY_VALUE = 'any';
+  var MAX_COUNT_PINS = 5;
 
   var PinMovementLimiting = {
     X_MIN: 0,
@@ -30,57 +32,6 @@
 
   var lastTimeout;
   var defaultAdverts = [];
-
-  /**
-   * @name getRandomNumber
-   * @description функция генерации случайных чисел
-   * @param {number} min - минимальное значение
-   * @param {number} max - максимальное значение
-   * @return {number} случайное число из диапазона
-   */
-  var getRandomNumber = function (min, max) {
-    return Math.floor(Math.random() * max) + min;
-  };
-
-  /**
-   * @name getRandomUniqueElementFromArray
-   * @description функция возвращает случайный элемент из массива без повторений
-   * @param {Array} array - массив
-   * @return {*}  - рандомный элемент из массива
-   */
-  var getRandomUniqueElementFromArray = function (array) {
-    var randomUniqueElement = array[getRandomNumber(0, array.length - 1)];
-    array.splice(array.indexOf(randomUniqueElement, 0), 1);
-    return randomUniqueElement;
-  };
-
-  /**
-   * @name getRandomElementFromArray
-   * @description функция возвращает случайный элемент из массива
-   * @param {Array} array - массив
-   * @return {*}  - рандомный элемент из массива
-   */
-  var getRandomElementFromArray = function (array) {
-    var randomElement = array[getRandomNumber(0, array.length)];
-    return randomElement;
-  };
-
-  /**
-   * @name generateArrayWithRandomLength
-   * @description функция создает массив случайных элементов случайной длинны
-   * @param {Array} originalArray - массив
-   * @return {Array}  - массив случайных элементов случайной длинны
-   */
-  var generateArrayWithRandomLength = function (originalArray) {
-    var oldArray = originalArray.slice();
-    var newArray = [];
-    var length = getRandomNumber(1, oldArray.length);
-
-    for (var i = 0; i < length; i++) {
-      newArray[i] = getRandomUniqueElementFromArray(oldArray);
-    }
-    return newArray;
-  };
 
   /**
    * @name getPluralForm
@@ -120,11 +71,10 @@
     typeOfHouseMap: typeOfHouseMap,
     pinMovementLimiting: PinMovementLimiting,
     pinDate: PinDate,
-    getRandomElementFromArray: getRandomElementFromArray,
-    generateArrayWithRandomLength: generateArrayWithRandomLength,
-    getRandomNumber: getRandomNumber,
     getPluralForm: getPluralForm,
     debounce: debounce,
-    defaultAdverts: defaultAdverts
+    defaultAdverts: defaultAdverts,
+    anyValue: ANY_VALUE,
+    maxCountPins: MAX_COUNT_PINS
   };
 })();

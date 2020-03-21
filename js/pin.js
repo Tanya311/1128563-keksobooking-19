@@ -1,7 +1,6 @@
 // Файл pin.js
 'use strict';
 (function () {
-  var MAX_COUNT_PINS = 5;
   var mapDialog = document.querySelector('.map');
   var mapPins = mapDialog.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -15,20 +14,22 @@
   var makePin = function (pinDate) {
     var pinElement = pinTemplate.cloneNode(true);
     var imgElement = pinElement.querySelector('img');
-    pinElement.style = 'left: ' + pinDate.location.x + 'px; top: ' + pinDate.location.y + 'px;';
+    pinElement.style.left = pinDate.location.x + 'px';
+    pinElement.style.top = pinDate.location.y + 'px';
     imgElement.src = pinDate.author.avatar;
     imgElement.alt = pinDate.offer.title;
 
-    var pinClickHandler = function () {
-      if (mapDialog.querySelector('.map__card')) {
-        mapDialog.querySelector('.map__card').remove();
+    var pinElementClickHandler = function () {
+      var card = mapDialog.querySelector('.map__card');
+      if (card) {
+        card.remove();
         removeClassActiveForPin();
       }
       window.card.render(pinDate);
       pinElement.classList.add('map__pin--active');
     };
 
-    pinElement.addEventListener('click', pinClickHandler);
+    pinElement.addEventListener('click', pinElementClickHandler);
     return pinElement;
   };
 
@@ -51,7 +52,7 @@
   var renderPins = function (pins) {
     var fragment = document.createDocumentFragment();
 
-    pins.slice(0, MAX_COUNT_PINS).forEach(function (pin) {
+    pins.slice(0, window.util.maxCountPins).forEach(function (pin) {
       if (pin.offer) {
         fragment.appendChild(makePin(pin));
       }

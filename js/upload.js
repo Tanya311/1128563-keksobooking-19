@@ -28,11 +28,11 @@
   };
 
   /**
-   * @name avatarUploadHandler
+   * @name avatarUploadFieldChangeHandler
    * @description функция загрузки аватара
    * @param {evt} evt
    */
-  var avatarUploadHandler = function (evt) {
+  var avatarUploadFieldChangeHandler = function (evt) {
     var file = evt.target.files[0];
 
     if (checTypeFile(file)) {
@@ -47,11 +47,11 @@
   };
 
   /**
-   * @name photoUploadHandler
+   * @name photoUploadFieldChangeHandler
    * @description функция загрузки фотографии
    * @param {evt} evt
    */
-  var photoUploadHandler = function (evt) {
+  var photoUploadFieldChangeHandler = function (evt) {
     var file = evt.target.files[0];
 
     if (checTypeFile(file)) {
@@ -70,8 +70,8 @@
 
   };
 
-  avatarUploadField.addEventListener('change', avatarUploadHandler);
-  photoUploadField.addEventListener('change', photoUploadHandler);
+  avatarUploadField.addEventListener('change', avatarUploadFieldChangeHandler);
+  photoUploadField.addEventListener('change', photoUploadFieldChangeHandler);
 
   /**
    * @name removePhoto

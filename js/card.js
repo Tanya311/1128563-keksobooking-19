@@ -19,11 +19,11 @@
   var mapFiltersContainer = document.querySelector('.map__filters-container');
 
   /**
-   * функция генерации карточки объявления
-   * @param {Object} card - объект объявлений
+   * функция создания карточки объявления
+   * @param {Object} card - объект
+   * @return {*}
    */
-
-  var renderCard = function (card) {
+  var makeCard = function (card) {
 
     var cardElement = cardTemplate.cloneNode(true);
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
@@ -62,38 +62,50 @@
     cardImg.appendChild(imgFragment);
 
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+    return cardElement;
+  };
 
-    mapDialog.insertBefore(cardElement, mapFiltersContainer);
+  /**
+   * функция генерации карточки объявления
+   * @param {Object} card - объект
+   */
+  var renderCard = function (card) {
+    var cardEl = makeCard(card);
+    var buttonPopupClose = cardEl.querySelector('.popup__close');
+    mapDialog.insertBefore(cardEl, mapFiltersContainer);
 
-    var buttonPopupClose = mapDialog.querySelector('.popup__close');
-
-    var closeCard = function () {
-      cardElement.remove();
-      window.pin.removeClassActive();
-      document.removeEventListener('keydown', cardCloseEscPressHandler);
-      buttonPopupClose.removeEventListener('keydown', cardCloseEnterPressHandler);
-      buttonPopupClose.removeEventListener('click', buttonCloseCardHandler);
-    };
-
-    var cardCloseEnterPressHandler = function (evt) {
+    var buttonPopupCloseEnterPressHandler = function (evt) {
       if (evt.key === window.util.enterKey) {
         closeCard();
       }
     };
 
-    var cardCloseEscPressHandler = function (evt) {
-      if (evt.key === window.util.escapeKey) {
-        closeCard();
-      }
-    };
-
-    var buttonCloseCardHandler = function () {
+    var buttonPopupCloseClickHandler = function () {
       closeCard();
     };
 
-    buttonPopupClose.addEventListener('click', buttonCloseCardHandler);
-    buttonPopupClose.addEventListener('keydown', cardCloseEnterPressHandler);
+    buttonPopupClose.addEventListener('click', buttonPopupCloseClickHandler);
+    buttonPopupClose.addEventListener('keydown', buttonPopupCloseEnterPressHandler);
     document.addEventListener('keydown', cardCloseEscPressHandler);
+  };
+
+  /**
+   * функция закрытия карточек объявления
+   * @param {Object} card - объект
+   */
+  var closeCard = function () {
+    removeCard();
+    window.pin.removeClassActive();
+  };
+
+  /**
+   * функция закрытия карточек объявления по нажатию Esc
+   * @param {*} evt
+   */
+  var cardCloseEscPressHandler = function (evt) {
+    if (evt.key === window.util.escapeKey) {
+      closeCard();
+    }
   };
 
   /**
@@ -104,8 +116,10 @@
     var cards = mapDialog.querySelectorAll('.map__card');
     cards.forEach(function (card) {
       card.remove();
+      document.removeEventListener('keydown', cardCloseEscPressHandler);
     });
   };
+
 
   window.card = {
     render: renderCard,

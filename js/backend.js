@@ -39,7 +39,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс. Проверьте соединение');
     });
 
-    xhr.timeout = TIMEOUT; // 10s
+    xhr.timeout = TIMEOUT;
     return xhr;
   };
 
@@ -111,7 +111,7 @@
     main.appendChild(successTemplate);
     var successMessegeClose = function () {
       successTemplate.remove();
-      main.removeEventListener('click', successMessegeClose);
+      main.removeEventListener('click', mainClickSuccessMessegeCloseHandler);
       document.removeEventListener('keydown', successTemplateCloseEscPressHandler);
     };
     var successTemplateCloseEscPressHandler = function (evt) {
@@ -119,7 +119,10 @@
         successMessegeClose();
       }
     };
-    main.addEventListener('click', successMessegeClose);
+    var mainClickSuccessMessegeCloseHandler = function () {
+      successMessegeClose();
+    };
+    main.addEventListener('click', mainClickSuccessMessegeCloseHandler);
     document.addEventListener('keydown', successTemplateCloseEscPressHandler);
   };
 
