@@ -3,6 +3,9 @@
 (function () {
   var BORDER_VALID_STYLE = '1px solid #d9d9d3';
   var BORDER_INVALID_STYLE = '2px solid red';
+  var PRICE_MIN = '1000';
+  var PRICE_MAX = '1000000';
+
 
   var priceOfHouseMap = {
     'bungalo': 0,
@@ -28,6 +31,8 @@
   var adressAdForm = adForm.querySelector('#address');
   var inputTitle = adForm.querySelector('#title');
   var houseingType = adForm.querySelector('#type');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
+
 
   /**
    * @name activateForm
@@ -41,6 +46,7 @@
     adressAdForm.value = (window.util.pinDate.X_START + Math.round(window.util.pinDate.WIDTH / 2)) + ' , ' + (window.util.pinDate.Y_START + window.util.pinDate.HEIGHT);
     adForm.addEventListener('submit', adFormSubmitHandler);
     adForm.addEventListener('change', adFormChangeHandler);
+    adFormSubmit.addEventListener('click', adFormSubmitClickHandler);
   };
 
   /**
@@ -56,9 +62,9 @@
     adFormFieldsets.forEach(function (fieldset) {
       fieldset.setAttribute('disabled', 'disabled');
     });
-    price.placeholder = '1000';
-    price.setAttribute('max', '1000000');
-    price.setAttribute('min', '1000');
+    price.placeholder = PRICE_MIN;
+    price.setAttribute('max', PRICE_MAX);
+    price.setAttribute('min', PRICE_MIN);
     price.style.border = BORDER_VALID_STYLE;
     guestsCout.style.border = BORDER_VALID_STYLE;
     inputTitle.style.border = BORDER_VALID_STYLE;
@@ -71,10 +77,8 @@
   var validateRoomCapacity = function () {
     var rooms = parseInt(roomNumber.value, 10);
     var guests = parseInt(guestsCout.value, 10);
-
     if (roomCapacityMap[rooms].indexOf(guests) === -1) {
       guestsCout.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
-      guestsCout.style.border = BORDER_INVALID_STYLE;
     } else {
       guestsCout.setCustomValidity('');
       guestsCout.style.border = BORDER_VALID_STYLE;
@@ -90,15 +94,12 @@
     switch (true) {
       case evt.target.validity.tooShort:
         evt.target.setCustomValidity('Заголовок не может содержать менее 30-ти символов');
-        evt.target.style.border = BORDER_INVALID_STYLE;
         break;
       case evt.target.validity.tooLong:
         evt.target.setCustomValidity('Заголовок не должен превышать 100 символов');
-        evt.target.style.border = BORDER_INVALID_STYLE;
         break;
       case evt.target.validity.valueMissing:
         evt.target.setCustomValidity('Обязательное поле');
-        evt.target.style.border = BORDER_INVALID_STYLE;
         break;
       default:
         evt.target.setCustomValidity('');
@@ -120,15 +121,12 @@
     switch (true) {
       case price.validity.rangeUnderflow:
         price.setCustomValidity('Цена должная быть равна или больше ' + min);
-        price.style.border = BORDER_INVALID_STYLE;
         break;
       case price.validity.rangeOverflow:
         price.setCustomValidity('Цена должная быть равна или меньше 1000000');
-        price.style.border = BORDER_INVALID_STYLE;
         break;
       case price.validity.valueMissing:
         price.setCustomValidity('Обязательное поле');
-        price.style.border = BORDER_INVALID_STYLE;
         break;
       case !price.validity.valueMissing:
         price.setCustomValidity('');
@@ -179,6 +177,22 @@
   var adFormSubmitHandler = function (evt) {
     window.backend.save(new FormData(adForm), window.backend.dataLoadHandler, window.backend.errorHandler);
     evt.preventDefault();
+  };
+
+  /**
+   * @name adFormSubmitClickHandler
+   * @description функция действий при невалидных полях
+   */
+  var adFormSubmitClickHandler = function () {
+    if (guestsCout.checkValidity() === false) {
+      guestsCout.style.border = BORDER_INVALID_STYLE;
+    }
+    if (price.checkValidity() === false) {
+      price.style.border = BORDER_INVALID_STYLE;
+    }
+    if (inputTitle.checkValidity() === false) {
+      inputTitle.style.border = BORDER_INVALID_STYLE;
+    }
   };
 
   window.form = {
