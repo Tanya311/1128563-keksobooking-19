@@ -32,11 +32,7 @@
    * @return {boolean}
    */
   var makeFilterAdsByType = function (ad) {
-    var housingTypeFlag = false;
-    if (housingType.value === window.util.anyValue || housingType.value === ad.offer.type) {
-      housingTypeFlag = true;
-    }
-    return housingTypeFlag;
+    return housingType.value === window.util.anyValue || housingType.value === ad.offer.type;
   };
 
   /**
@@ -46,11 +42,8 @@
    * @return {boolean}
    */
   var makeFilterAdsByPrice = function (ad) {
-    var housingPriceFlag = false;
-    if (housingPrice.value === window.util.anyValue || priceRangeMap[housingPrice.value].min <= ad.offer.price && priceRangeMap[housingPrice.value].max >= ad.offer.price) {
-      housingPriceFlag = true;
-    }
-    return housingPriceFlag;
+    return housingPrice.value === window.util.anyValue ||
+           priceRangeMap[housingPrice.value].min <= ad.offer.price && priceRangeMap[housingPrice.value].max >= ad.offer.price;
   };
 
   /**
@@ -60,11 +53,7 @@
    * @return {boolean}
    */
   var makeFilterAdsByRoom = function (ad) {
-    var housingRoomsFlag = false;
-    if (housingRooms.value === window.util.anyValue || ad.offer.rooms === parseInt(housingRooms.value, 10)) {
-      housingRoomsFlag = true;
-    }
-    return housingRoomsFlag;
+    return housingRooms.value === window.util.anyValue || ad.offer.rooms === parseInt(housingRooms.value, 10);
   };
 
   /**
@@ -74,12 +63,7 @@
    * @return {boolean}
    */
   var makeFilterAdsByGuests = function (ad) {
-    var housingGuestsFlag = false;
-    if (housingGuests.value === window.util.anyValue ||
-      ad.offer.guests === parseInt(housingGuests.value, 10)) {
-      housingGuestsFlag = true;
-    }
-    return housingGuestsFlag;
+    return housingGuests.value === window.util.anyValue || ad.offer.guests === parseInt(housingGuests.value, 10);
   };
 
   /**
